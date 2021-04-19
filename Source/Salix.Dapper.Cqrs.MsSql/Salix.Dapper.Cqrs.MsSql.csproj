@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- === General properties ===-->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <RootNamespace>Salix.Dapper.Cqrs.MsSql</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <!-- === NuGet package description properties ===-->
+  <PropertyGroup Label="NuGet properties">
+    <PackageId>Salix.Dapper.Cqrs.MsSql</PackageId>
+    <Authors>Anrijs Vitolins;GitHub contributors</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugSymbols>true</DebugSymbols>
+    <PackageTags>cqrs;dapper;database;mssql</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!--<PackageIcon>dapper-cqrs.png</PackageIcon>-->
+    <Description>
+      
+    </Description>
+    <PackageProjectUrl>https://github.com/salixzs/Dapper.Cqrs</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/salixzs/Dapper.Cqrs</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <PackageReleaseNotes>
+
+    </PackageReleaseNotes>
+    <Version>1.0.0-alpha.1</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <!-- === 3rd party references ===-->
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.78" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.13" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <!-- === Own references ===-->
+  <ItemGroup>
+    <ProjectReference Include="..\Salix.Dapper.Cqrs.Abstractions\Salix.Dapper.Cqrs.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

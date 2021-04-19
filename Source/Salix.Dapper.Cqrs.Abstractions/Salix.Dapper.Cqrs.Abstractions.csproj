@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- === General properties ===-->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <RootNamespace>Salix.Dapper.Cqrs.Abstractions</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <!-- === NuGet package description properties ===-->
+  <PropertyGroup Label="NuGet properties">
+    <PackageId>Salix.Dapper.Cqrs.Abstractions</PackageId>
+    <Authors>Anrijs Vitolins;GitHub contributors</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugSymbols>true</DebugSymbols>
+    <PackageTags>cqrs;dapper;database</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!--<PackageIcon>dapper-cqrs.png</PackageIcon>-->
+    <Description>
+Base classes and abstractions to use Dapper in Command Query Responsibility Segregation principle (CQRS) manner.
+    </Description>
+    <PackageProjectUrl>https://github.com/salixzs/Dapper.Cqrs</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/salixzs/Dapper.Cqrs</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <PackageReleaseNotes>
+Initial release providing Abstractions to several database engines.
+    </PackageReleaseNotes>
+    <Version>1.0.0-alpha.1</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <!--<ItemGroup>
+    <None Include="../../dapper-cqrs.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>-->
+
+</Project>

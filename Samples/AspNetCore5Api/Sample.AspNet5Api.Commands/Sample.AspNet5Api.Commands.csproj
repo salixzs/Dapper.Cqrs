@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Source\Salix.Dapper.Cqrs.Abstractions\Salix.Dapper.Cqrs.Abstractions.csproj" />
+    <ProjectReference Include="..\Sample.AspNet5Api.Domain\Sample.AspNet5Api.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
