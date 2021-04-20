@@ -14,5 +14,11 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// </summary>
         /// <param name="session">The database connection session.</param>
         Task<T> ExecuteAsync(IDatabaseSession session);
+
+        /// <summary>
+        /// Actual executable method of database query which returns data from database.
+        /// </summary>
+        /// <param name="session">The database connection session.</param>
+        T Execute(IDatabaseSession session);
     }
 }

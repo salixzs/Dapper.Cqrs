@@ -59,7 +59,7 @@ public sealed class SampleQuery : MsSqlQueryBase, IQuery<IEnumerable<SampleData>
     
     // This is to specify internal method to use for query (One or many records?)
     public async Task<IEnumerable<SampleData>> ExecuteAsync(IDatabaseSession session)
-            => await session.QueryAsync<SampleData>(this.SqlStatement);
+            => await session.QueryAsync<SampleData>(this.SqlStatement, this.Parameters);
 }
 ```
 Here base class `MsSqlQueryBase` is class, implementing most of `IQuery` interface demands, but with MsSQL specifics, so developers does not have to for each `IQuery` implementation.

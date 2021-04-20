@@ -19,5 +19,6 @@ UPDATE Artist
 
         public async Task ExecuteAsync(IDatabaseSession session) =>
             await session.ExecuteAsync(this.SqlStatement, _dbObject);
+        public void Execute(IDatabaseSession session) => throw new NotImplementedException("Not using synchronous approach with MS SQL");
     }
 }

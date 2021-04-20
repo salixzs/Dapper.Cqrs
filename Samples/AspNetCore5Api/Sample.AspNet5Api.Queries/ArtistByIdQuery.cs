@@ -7,7 +7,7 @@ namespace Sample.AspNet5Api.Queries
     /// <summary>
     /// Retrieves an Artist from database by its ID.
     /// </summary>
-    public sealed class ArtistByIdQuery : MsSqlQueryBase, IQuery<Artist>
+    public sealed class ArtistByIdQuery : MsSqlQueryBase<Artist>, IQuery<Artist>
     {
         private readonly int _objectId;
 

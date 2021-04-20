@@ -24,5 +24,6 @@ DELETE FROM Artist
 
         public async Task ExecuteAsync(IDatabaseSession session) =>
             await session.ExecuteAsync(this.SqlStatement, new { id = _dbId });
+        public void Execute(IDatabaseSession session) => throw new NotImplementedException("Not using synchronous approach with MS SQL");
     }
 }

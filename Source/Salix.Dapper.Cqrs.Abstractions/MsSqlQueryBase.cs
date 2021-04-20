@@ -10,7 +10,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
     /// Base class for IQuery implementors to cover for common functionalities of common (mostly CRUD) classes with MS SQL Server.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
-    public abstract class MsSqlQueryBase
+    public abstract class MsSqlQueryBase<T>
     {
         /// <summary>
         /// Property to hold SQL Statement used for Query class.
@@ -45,6 +45,9 @@ namespace Salix.Dapper.Cqrs.Abstractions
                 throw new DatabaseStatementSyntaxException(result, this.SqlStatement);
             }
         }
+
+        /// <inheritdoc/>
+        public virtual T Execute(IDatabaseSession session) => throw new NotImplementedException("For MS SQL Server best use ExecuteAsync() or implement this method (overdrive) in IQuery class.");
 
         /// <summary>
         /// Builds SQL Syntax for input parameter setup.

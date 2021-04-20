@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -13,7 +14,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes Query object (in "cQrs") onto SQL database, returning Domain object(s).
         /// Example:
         /// <code>
-        /// List{DOMAN_OBJECT} result = cqrs.QueryAsync(new QueryInterfaceImplemetation(parameter));
+        /// List{DOMAN_OBJECT} result = await cqrs.QueryAsync(new QueryInterfaceImplemetation(parameter));
         /// </code>
         /// </summary>
         /// <remarks>
@@ -28,7 +29,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes Command object (in "Cqrs") onto SQL database, usually modifying data there.
         /// Example:
         /// <code>
-        /// cqrs.ExecuteAsync(new CommandInterfaceImplemetation(parameters));
+        /// await cqrs.ExecuteAsync(new CommandInterfaceImplemetation(parameters));
         /// </code>
         /// </summary>
         /// <remarks>
@@ -41,7 +42,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes Command object (in "Cqrs") onto SQL database, probably modifying data there and returning data as well.
         /// Example:
         /// <code>
-        /// var id = cqrs.ExecuteAsync(new CommandInterfaceImplemetation(parameters));
+        /// var id = await cqrs.ExecuteAsync(new CommandInterfaceImplemetation(parameters));
         /// </code>
         /// </summary>
         /// <remarks>
@@ -50,6 +51,48 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// <typeparam name="T">Type expected to be returned by executing command.</typeparam>
         /// <param name="command">The command object.</param>
         Task<T> ExecuteAsync<T>(ICommand<T> command);
+
+        /// <summary>
+        /// Executes Query object (in "cQrs") onto SQL database, returning Domain object(s).
+        /// Example:
+        /// <code>
+        /// List{DOMAN_OBJECT} result = cqrs.Query(new QueryInterfaceImplemetation(parameter));
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// Use Execute(<see cref="ICommand"/>) to change data in database.
+        /// </remarks>
+        /// <typeparam name="T">Domain (as in DDD) object.</typeparam>
+        /// <param name="sqlQuery">The query object.</param>
+        T Query<T>(IQuery<T> sqlQuery);
+
+
+        /// <summary>
+        /// Executes Command object (in "Cqrs") onto SQL database, usually modifying data there without returning any data.
+        /// Example:
+        /// <code>
+        /// await cqrs.Execute(new CommandInterfaceImplemetation(parameters));
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// Use <see cref="IQuery{T}" /> for reading data from database.
+        /// </remarks>
+        /// <param name="command">The command object.</param>
+        void Execute(ICommand command);
+
+        /// <summary>
+        /// Executes Command object (in "Cqrs") onto SQL database, probably modifying data there and returning data as well.
+        /// Example:
+        /// <code>
+        /// var id = cqrs.Execute(new CommandInterfaceImplemetation(parameters));
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// Use <see cref="IQuery{T}" /> for reading data from database.
+        /// </remarks>
+        /// <typeparam name="T">Type expected to be returned by executing command.</typeparam>
+        /// <param name="command">The command object.</param>
+        T Execute<T>(ICommand<T> command);
 
         /// <summary>
         /// Explicitly Rollbacks the database transaction. This is provided to rollback any transaction
@@ -71,5 +114,10 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// (and commit at the end of it automatically).
         /// </summary>
         void CommitTransaction();
+
+        /// <summary>
+        /// Stores execution time of last method call of SQL passed into <see cref="IDatabaseContext.ExecuteSql{T}(Func{System.Data.IDbTransaction, T})"/> method.
+        /// </summary>
+        TimeSpan ExecutionTime { get; }
     }
 }

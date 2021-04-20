@@ -7,7 +7,7 @@ namespace Sample.AspNet5Api.Queries
     /// <summary>
     /// Retrieves an Album from database by its ID.
     /// </summary>
-    public sealed class AlbumByIdQuery : MsSqlQueryBase, IQuery<Album>
+    public sealed class AlbumByIdQuery : MsSqlQueryBase<Album>, IQuery<Album>
     {
         private readonly int _objectId;
 

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -16,20 +17,29 @@ namespace Salix.Dapper.Cqrs.Abstractions
         public CommandQueryContext(IDatabaseSession databaseSession) => _databaseSession = databaseSession;
 
         /// <inheritdoc/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "Avoiding null-checks for performance reasons.")]
         public async Task<T> QueryAsync<T>(IQuery<T> sqlQuery) => await sqlQuery.ExecuteAsync(_databaseSession);
 
         /// <inheritdoc/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "Avoiding null-checks for performance reasons.")]
         public async Task ExecuteAsync(ICommand command) => await command.ExecuteAsync(_databaseSession);
 
         /// <inheritdoc/>
         public async Task<T> ExecuteAsync<T>(ICommand<T> command) => await command.ExecuteAsync(_databaseSession);
 
         /// <inheritdoc/>
+        public T Query<T>(IQuery<T> sqlQuery) => sqlQuery.Execute(_databaseSession);
+
+        /// <inheritdoc/>
+        public void Execute(ICommand command) => command.Execute(_databaseSession);
+
+        /// <inheritdoc/>
+        public T Execute<T>(ICommand<T> command) => command.Execute(_databaseSession);
+
+        /// <inheritdoc/>
         public void CommitTransaction() => _databaseSession.CommitTransaction();
 
         /// <inheritdoc/>
         public void RollbackTransaction() => _databaseSession.RollbackTransaction();
+
+        public TimeSpan ExecutionTime => _databaseSession.ExecutionTime;
     }
 }

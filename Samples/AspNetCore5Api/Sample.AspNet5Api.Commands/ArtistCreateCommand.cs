@@ -22,5 +22,6 @@ INSERT INTO Artist (
 
         public async Task<int> ExecuteAsync(IDatabaseSession session) =>
             await session.ExecuteAsync<int>(this.SqlStatement, _dbObject);
+        public int Execute(IDatabaseSession session) => throw new NotImplementedException("Not using synchronous approach with MS SQL");
     }
 }

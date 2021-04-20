@@ -14,6 +14,12 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// </summary>
         /// <param name="session">The database connection session.</param>
         Task ExecuteAsync(IDatabaseSession session);
+
+        /// <summary>
+        /// Executes the specified SQL statement(s) onto database session and returns data.
+        /// </summary>
+        /// <param name="session">The database connection session.</param>
+        void Execute(IDatabaseSession session);
     }
 
     /// <summary>
@@ -29,6 +35,12 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// </summary>
         /// <param name="session">The database connection session.</param>
         Task<T> ExecuteAsync(IDatabaseSession session);
+
+        /// <summary>
+        /// Executes the specified SQL statement(s) onto database session and returns data.
+        /// </summary>
+        /// <param name="session">The database connection session.</param>
+        T Execute(IDatabaseSession session);
     }
 #pragma warning restore RCS1060 // Declare each type in separate file.
 }

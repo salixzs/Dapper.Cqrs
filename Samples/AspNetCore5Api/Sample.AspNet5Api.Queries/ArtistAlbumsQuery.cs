@@ -8,7 +8,7 @@ namespace Sample.AspNet5Api.Queries
     /// <summary>
     /// Retrieves a list of Artist Albums from Database.
     /// </summary>
-    public sealed class ArtistAlbumsQuery : MsSqlQueryBase, IQuery<IEnumerable<Album>>
+    public sealed class ArtistAlbumsQuery : MsSqlQueryBase<IEnumerable<Album>>, IQuery<IEnumerable<Album>>
     {
         private readonly int _objectId;
 
