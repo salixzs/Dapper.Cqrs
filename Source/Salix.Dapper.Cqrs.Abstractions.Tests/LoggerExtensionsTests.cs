@@ -236,5 +236,12 @@ WHERE [Id] = @Id
 ";
             _ = sql.ToShortSql().Should().Be("UPDATE Table SET Name = @Name, Title = @Title, Address = @Address, Phone =…");
         }
+
+        [Fact]
+        public void ToShortSql_Function_ShortensStatement()
+        {
+            string sql = "SELECT dbo.CheckSql(@tsql, @parameterTypes)";
+            _ = sql.ToShortSql().Should().Be("SELECT dbo.CheckSql(@tsql, @parameterTypes)");
+        }
     }
 }

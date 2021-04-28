@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.218
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{A8440514-B34B-40E3-A920-4986E824E779}") = "Sample.AspNet5Api", "Sample.AspNet5Api\Sample.AspNet5Api.csproj", "{70812E70-8F71-481B-98A5-2347E8648F2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNet5Api", "Sample.AspNet5Api\Sample.AspNet5Api.csproj", "{70812E70-8F71-481B-98A5-2347E8648F2F}"
 EndProject
-Project("{A8440514-B34B-40E3-A920-4986E824E779}") = "Sample.AspNet5Api.Logic", "Sample.AspNet5Api.Logic\Sample.AspNet5Api.Logic.csproj", "{F7077202-D8A3-4291-A5B8-500AE361AADA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNet5Api.Logic", "Sample.AspNet5Api.Logic\Sample.AspNet5Api.Logic.csproj", "{F7077202-D8A3-4291-A5B8-500AE361AADA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{B65D029D-748D-4919-B2C0-41335F38C1A9}"
 EndProject
@@ -13,11 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Salix.Dapper.Cqrs.Abstracti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Salix.Dapper.Cqrs.MsSql", "..\..\Source\Salix.Dapper.Cqrs.MsSql\Salix.Dapper.Cqrs.MsSql.csproj", "{6BA6C9EB-ED70-46C7-94D7-EA130A4363F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.AspNet5Api.Domain", "Sample.AspNet5Api.Domain\Sample.AspNet5Api.Domain.csproj", "{39565F96-B236-4A40-8430-0456248C1510}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNet5Api.Domain", "Sample.AspNet5Api.Domain\Sample.AspNet5Api.Domain.csproj", "{39565F96-B236-4A40-8430-0456248C1510}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.AspNet5Api.Queries", "Sample.AspNet5Api.Queries\Sample.AspNet5Api.Queries.csproj", "{0F3303DF-E8A8-464A-9CDF-B8FFE817DF45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNet5Api.Queries", "Sample.AspNet5Api.Queries\Sample.AspNet5Api.Queries.csproj", "{0F3303DF-E8A8-464A-9CDF-B8FFE817DF45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.AspNet5Api.Commands", "Sample.AspNet5Api.Commands\Sample.AspNet5Api.Commands.csproj", "{08C6BC25-2B1D-4014-934D-FDF6D483A508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNet5Api.Commands", "Sample.AspNet5Api.Commands\Sample.AspNet5Api.Commands.csproj", "{08C6BC25-2B1D-4014-934D-FDF6D483A508}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.AspNet5Api.Database.Tests", "Sample.AspNet5Api.Database.Tests\Sample.AspNet5Api.Database.Tests.csproj", "{5FBCBC9F-DE89-46E2-84A0-11747B0B0C52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Salix.Dapper.Cqrs.MsSql.Testing.XUnit", "..\..\Source\Salix.Dapper.Cqrs.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit.csproj", "{190B5605-1952-4559-8BEE-6D3E56B3ED87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +57,14 @@ Global
 		{08C6BC25-2B1D-4014-934D-FDF6D483A508}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08C6BC25-2B1D-4014-934D-FDF6D483A508}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08C6BC25-2B1D-4014-934D-FDF6D483A508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FBCBC9F-DE89-46E2-84A0-11747B0B0C52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FBCBC9F-DE89-46E2-84A0-11747B0B0C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FBCBC9F-DE89-46E2-84A0-11747B0B0C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FBCBC9F-DE89-46E2-84A0-11747B0B0C52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{190B5605-1952-4559-8BEE-6D3E56B3ED87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{190B5605-1952-4559-8BEE-6D3E56B3ED87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{190B5605-1952-4559-8BEE-6D3E56B3ED87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{190B5605-1952-4559-8BEE-6D3E56B3ED87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DBD582F2-C6A1-4130-89DF-686FA57A83E1} = {B65D029D-748D-4919-B2C0-41335F38C1A9}
 		{6BA6C9EB-ED70-46C7-94D7-EA130A4363F1} = {B65D029D-748D-4919-B2C0-41335F38C1A9}
+		{190B5605-1952-4559-8BEE-6D3E56B3ED87} = {B65D029D-748D-4919-B2C0-41335F38C1A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {04589CAB-657B-4604-98FA-C1FE86E04DFE}

@@ -8,12 +8,12 @@ using Xunit.Sdk;
 namespace Salix.Dapper.Cqrs.MsSql.Tests
 {
     [ExcludeFromCodeCoverage]
-    public class ChinookLightTestsFixture : IDisposable
+    public sealed class ChinookLightTestsFixture : IDisposable
     {
         private const string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog={dbname};Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;";
         private readonly IMessageSink _messageSink;
 
-        public string SqlConnectionString => ConnectionString.Replace("{dbname}", "ChinookLight");
+        public static string SqlConnectionString => ConnectionString.Replace("{dbname}", "ChinookLight");
 
         public static object GetInternalConnection(object instance) => GetInstanceField(typeof(DatabaseContext), instance, "_connection");
         public static string GetInternalConnectionString(object instance) => (string)GetInstanceField(typeof(DatabaseContext), instance, "_connectionString");

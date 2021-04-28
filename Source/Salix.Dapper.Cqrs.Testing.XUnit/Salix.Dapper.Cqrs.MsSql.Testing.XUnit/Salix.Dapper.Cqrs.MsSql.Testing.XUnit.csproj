@@ -4,21 +4,21 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <RootNamespace>Salix.Dapper.Cqrs.MsSql</RootNamespace>
+    <RootNamespace>Salix.Dapper.Cqrs.MsSql.Testing.XUnit</RootNamespace>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <!-- === NuGet package description properties ===-->
   <PropertyGroup Label="NuGet properties">
-    <PackageId>Salix.Dapper.Cqrs.MsSql</PackageId>
+    <PackageId>Salix.Dapper.Cqrs.MsSql.Testing.XUnit</PackageId>
     <Authors>Anrijs Vitolins;GitHub contributors</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugSymbols>true</DebugSymbols>
-    <PackageTags>cqrs;dapper;database;mssql</PackageTags>
+    <PackageTags>cqrs;database;mssql;xunit;testing</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <!--<PackageIcon>dapper-cqrs.png</PackageIcon>-->
     <Description>
@@ -38,15 +38,15 @@
 
   <!-- === 3rd party references ===-->
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.78" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.14" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="xunit.core" Version="2.4.1" />
   </ItemGroup>
 
   <!-- === Own references ===-->
   <ItemGroup>
-    <ProjectReference Include="..\Salix.Dapper.Cqrs.Abstractions\Salix.Dapper.Cqrs.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Salix.Dapper.Cqrs.Abstractions\Salix.Dapper.Cqrs.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Salix.Dapper.Cqrs.MsSql\Salix.Dapper.Cqrs.MsSql.csproj" />
   </ItemGroup>
 
 </Project>

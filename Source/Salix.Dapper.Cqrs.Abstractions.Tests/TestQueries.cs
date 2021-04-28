@@ -6,13 +6,13 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
 {
 
     [ExcludeFromCodeCoverage]
-    public sealed class EmptyQuery : MsSqlQueryBase, IQuery<int>
+    public sealed class EmptyQuery : MsSqlQueryBase<int>, IQuery<int>
     {
         public async Task<int> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<int>(this.SqlStatement);
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class SimpleQuery : MsSqlQueryBase, IQuery<int>
+    public sealed class SimpleQuery : MsSqlQueryBase<int>, IQuery<int>
     {
         public override string SqlStatement => "SELECT Id FROM Table";
 
@@ -22,7 +22,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamTypesQuery : MsSqlQueryBase, IQuery<int>
+    public sealed class AllParamTypesQuery : MsSqlQueryBase<int>, IQuery<int>
     {
         public override string SqlStatement => "SQL";
 
@@ -55,7 +55,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamNullTypesQuery : MsSqlQueryBase, IQuery<int>
+    public sealed class AllParamNullTypesQuery : MsSqlQueryBase<int>, IQuery<int>
     {
         public override string SqlStatement => "SQL";
 
@@ -88,7 +88,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamNullTypesNullQuery : MsSqlQueryBase, IQuery<int>
+    public sealed class AllParamNullTypesNullQuery : MsSqlQueryBase<int>, IQuery<int>
     {
         public override string SqlStatement => "SQL";
 

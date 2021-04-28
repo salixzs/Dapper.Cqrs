@@ -64,8 +64,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
             const int maxSelectLength = (int)(maxTotalLength * 0.3);
             const int maxFromLength = (int)(maxTotalLength * 0.4);
 
-            var selectPosition = trimmed.IndexOf("SELECT", 0, StringComparison.InvariantCultureIgnoreCase);
-            var fromPosition = trimmed.IndexOf("FROM", 0, StringComparison.InvariantCultureIgnoreCase);
+            int selectPosition = trimmed.IndexOf("SELECT", 0, StringComparison.InvariantCultureIgnoreCase);
+            int fromPosition = trimmed.IndexOf("FROM", 0, StringComparison.InvariantCultureIgnoreCase);
             if (selectPosition >= 0)
             {
                 // SUBSELECTS in SELECT clause
@@ -81,7 +81,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
                 while (nextSelectPosition > 0);
             }
 
-            if (selectPosition == -1 || selectPosition > 5)
+            if (selectPosition == -1 || selectPosition > 5 || fromPosition == -1)
             {
                 return trimmed.Length > maxTotalLength ? trimmed.Substring(0, maxTotalLength - 1) + "\u2026" : trimmed;
             }
@@ -94,7 +94,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
                 actualSelectPartLength = maxSelectLength;
             }
 
-            var wherePosition = trimmed.IndexOf("WHERE", fromPosition == -1 ? 0 : fromPosition, StringComparison.InvariantCultureIgnoreCase);
+            int wherePosition = trimmed.IndexOf("WHERE", fromPosition == -1 ? 0 : fromPosition, StringComparison.InvariantCultureIgnoreCase);
 
             string fromPart = trimmed.Substring(fromPosition, wherePosition == -1 ? trimmed.Length - fromPosition : trimmed.Length - fromPosition - (trimmed.Length - wherePosition));
             int actualFromPartLength = fromPart.Length;

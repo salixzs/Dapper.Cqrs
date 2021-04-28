@@ -105,5 +105,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private string DebuggerDisplay => this.SqlStatement.ToShortSql();
+
+        public override string ToString() => nameof(T);
     }
 }

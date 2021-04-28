@@ -32,7 +32,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
         {
             _output = output;
             _sqlContext = new Mock<IMsSqlContext>();
-            _sqlContext.SetupGet(p => p.ExecutionTime).Returns(new System.TimeSpan(0, 0, 0, 0, 386)); // Execution time
+            _sqlContext.SetupGet(p => p.ExecutionTime).Returns(new TimeSpan(0, 0, 0, 0, 386)); // Execution time
             _logger = new XUnitLogger<SqlDatabaseSession>(_output);
         }
 
@@ -130,7 +130,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
             string result = testable.Execute<string>("SELECT label FROM Somewhere WHERE Id = @id", new { id = 12 });
 
             testable.ExecutionTime.Should().Be(new TimeSpan(0, 0, 0, 0, 386)); // Gets passed from internal dependency.
-            _sqlContext.Verify(m => m.ExecuteSql<object>(It.IsAny<Func<IDbTransaction, object>>()), Times.Once);
+            _sqlContext.Verify(m => m.ExecuteSql(It.IsAny<Func<IDbTransaction, object>>()), Times.Once);
             _logger.LoggedMessages.Should().HaveCount(1);
             _logger.LoggedMessages[0]
                 .Should()
@@ -145,7 +145,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
             string result = await testable.ExecuteAsync<string>("SELECT label FROM Somewhere WHERE Id = @id", new { id = 12 });
 
             testable.ExecutionTime.Should().Be(new TimeSpan(0, 0, 0, 0, 386)); // Gets passed from internal dependency.
-            _sqlContext.Verify(m => m.ExecuteSql<string>(It.IsAny<Func<IDbTransaction, Task<string>>>()), Times.Once);
+            _sqlContext.Verify(m => m.ExecuteSql(It.IsAny<Func<IDbTransaction, Task<string>>>()), Times.Once);
             _logger.LoggedMessages.Should().HaveCount(1);
             _logger.LoggedMessages[0]
                 .Should()

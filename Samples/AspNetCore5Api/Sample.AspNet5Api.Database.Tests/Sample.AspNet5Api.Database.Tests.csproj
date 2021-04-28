@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <NoWarn>1701;1702;CA1707;IDE0058;IDE0008</NoWarn>
+    <NoWarn>1701;1702;CA1707</NoWarn>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -22,7 +23,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Salix.Dapper.Cqrs.Abstractions\Salix.Dapper.Cqrs.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Source\Salix.Dapper.Cqrs.MsSql\Salix.Dapper.Cqrs.MsSql.csproj" />
+    <ProjectReference Include="..\..\..\Source\Salix.Dapper.Cqrs.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit.csproj" />
+    <ProjectReference Include="..\Sample.AspNet5Api.Queries\Sample.AspNet5Api.Queries.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="testsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

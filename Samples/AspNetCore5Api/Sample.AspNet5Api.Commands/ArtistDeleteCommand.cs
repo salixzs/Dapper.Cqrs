@@ -21,6 +21,6 @@ namespace Sample.AspNet5Api.Commands
 DELETE FROM Artist
       WHERE ArtistId = @id";
 
-        public override object Parameters => new {id = _dbId};
+        public override object Parameters => new { id = _dbId };
     }
 }

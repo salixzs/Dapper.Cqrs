@@ -12,17 +12,15 @@ using Xunit.Abstractions;
 namespace Salix.Dapper.Cqrs.MsSql.Tests
 {
     [ExcludeFromCodeCoverage]
-    public class DatabaseContextIntegrationTests : IClassFixture<ChinookLightTestsFixture>, IDisposable
+    public sealed class DatabaseContextIntegrationTests : IClassFixture<ChinookLightTestsFixture>, IDisposable
     {
-        private readonly ChinookLightTestsFixture _fixture;
         private DatabaseContext _sut;
         private readonly XUnitLogger<DatabaseContext> _log;
 
-        public DatabaseContextIntegrationTests(ChinookLightTestsFixture fixture, ITestOutputHelper output)
+        public DatabaseContextIntegrationTests(ITestOutputHelper output)
         {
-            _fixture = fixture;
             _log = new XUnitLogger<DatabaseContext>(output);
-            _sut = new DatabaseContext(_fixture.SqlConnectionString, _log);
+            _sut = new DatabaseContext(ChinookLightTestsFixture.SqlConnectionString, _log);
         }
 
         public void Dispose() => _sut.Dispose();
@@ -46,7 +44,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
         {
             var connStr = ChinookLightTestsFixture.GetInternalConnectionString(_sut);
             connStr.Should().NotBeNullOrEmpty();
-            connStr.Should().Be(_fixture.SqlConnectionString);
+            connStr.Should().Be(ChinookLightTestsFixture.SqlConnectionString);
         }
 
         [Fact]
@@ -177,7 +175,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
         public void Context_Query_ReturnsData()
         {
             var artist = _sut.ExecuteSql(transaction => _sut.Connection.QueryFirstOrDefault<string>("SELECT Name FROM Artist WHERE ArtistId = @Id", new { Id = 1 }, transaction));
-            _sut.ExecutionTime.Should().NotBe(System.TimeSpan.MinValue);
+            _sut.ExecutionTime.Should().NotBe(TimeSpan.MinValue);
             _log.LogDebug("--- Calling DatabaseContext.Dispose() explicitly NOW.");
             _sut.Dispose();
 
@@ -207,7 +205,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
         public async Task Context_AsyncQuery_ReturnsData()
         {
             var artist = await _sut.ExecuteSql(transaction => _sut.Connection.QueryFirstOrDefaultAsync<string>("SELECT Name FROM Artist WHERE ArtistId = @Id", new { Id = 1 }, transaction));
-            _sut.ExecutionTime.Should().NotBe(System.TimeSpan.MinValue);
+            _sut.ExecutionTime.Should().NotBe(TimeSpan.MinValue);
             _log.LogDebug("--- Calling DatabaseContext.Dispose() explicitly NOW.");
             _sut.Dispose();
 
@@ -642,7 +640,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
             _sut.Dispose();
 
             // Creating a new Context (with same logger - accumulate both)
-            _sut = new DatabaseContext(_fixture.SqlConnectionString, _log);
+            _sut = new DatabaseContext(ChinookLightTestsFixture.SqlConnectionString, _log);
             var artists = _sut.ExecuteSql(transaction => _sut.Connection.Query<string>("SELECT Name FROM Artist", null, transaction));
             var secondConn = _sut.Connection.GetHashCode();
             var secondTransaction = _sut.Transaction.GetHashCode();
@@ -726,7 +724,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
             _sut.Dispose();
 
             // Creating a new Context (with same logger - accumulate both)
-            _sut = new DatabaseContext(_fixture.SqlConnectionString, _log);
+            _sut = new DatabaseContext(ChinookLightTestsFixture.SqlConnectionString, _log);
             var albums = await _sut.ExecuteSql(transaction => _sut.Connection.QueryAsync<string>("SELECT Title FROM Album WHERE ArtistId = 1", null, transaction));
             var secondConn = _sut.Connection.GetHashCode();
             var secondTransaction = _sut.Transaction.GetHashCode();

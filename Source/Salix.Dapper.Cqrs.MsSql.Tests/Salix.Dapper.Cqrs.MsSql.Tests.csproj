@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-
+    <NoWarn>1701;1702;CA1707;IDE0058;IDE0008</NoWarn>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

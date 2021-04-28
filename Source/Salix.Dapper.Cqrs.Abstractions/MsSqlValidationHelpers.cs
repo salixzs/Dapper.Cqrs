@@ -92,7 +92,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
                 // In case parameter is of nullable type - we have to get underlying type name
                 if (Nullable.GetUnderlyingType(propInfo.PropertyType) != null)
                 {
-                    propertyTypeName = Nullable.GetUnderlyingType(propInfo.PropertyType).Name;
+                    propertyTypeName = Nullable.GetUnderlyingType(propInfo.PropertyType)?.Name;
                 }
 
                 // First - get the type
@@ -174,32 +174,23 @@ namespace Salix.Dapper.Cqrs.Abstractions
                         propStatements.Append('\'').Append(strval).AppendLine("';");
                         break;
                     case "Char":
-                        propStatements.Append('\'').Append(propInfo.GetValue(statementParameters)).AppendLine("';");
-                        break;
                     case "Char[]":
+                    case "Guid":
                         propStatements.Append('\'').Append(propInfo.GetValue(statementParameters)).AppendLine("';");
                         break;
                     case "Int16":
                     case "SByte":
-                        propStatements.Append(propInfo.GetValue(statementParameters)).AppendLine(";");
-                        break;
                     case "Int32":
                     case "UInt16":
-                        propStatements.Append(propInfo.GetValue(statementParameters)).AppendLine(";");
-                        break;
                     case "Int64":
                     case "UInt32":
+                    case "Byte":
+                    case "UInt64":
                         propStatements.Append(propInfo.GetValue(statementParameters)).AppendLine(";");
                         break;
                     case "Boolean":
                         bool boolval = (bool)propInfo.GetValue(statementParameters);
                         propStatements.AppendLine(boolval ? "1;" : "0;");
-                        break;
-                    case "Byte":
-                        propStatements.Append(propInfo.GetValue(statementParameters)).AppendLine(";");
-                        break;
-                    case "UInt64":
-                        propStatements.Append(propInfo.GetValue(statementParameters)).AppendLine(";");
                         break;
                     case "Decimal":
                         propStatements.Append(((decimal)propInfo.GetValue(statementParameters)).ToString(CultureInfo.InvariantCulture)).AppendLine(";");
@@ -210,9 +201,6 @@ namespace Salix.Dapper.Cqrs.Abstractions
                     case "Double":
                         propStatements.Append(((double)propInfo.GetValue(statementParameters)).ToString(CultureInfo.InvariantCulture)).AppendLine(";");
                         break;
-                    case "Guid":
-                        propStatements.Append('\'').Append(propInfo.GetValue(statementParameters)).AppendLine("';");
-                        break;
                     case "DateTime":
                         var dtval = (DateTime)propInfo.GetValue(statementParameters);
                         propStatements.Append('\'').Append(dtval.ToString("u")).AppendLine("';");
@@ -222,7 +210,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
                         propStatements.Append('\'').Append(dtoval.ToString("u")).AppendLine("';");
                         break;
                     case "TimeSpan":
-                        var tsval = ((TimeSpan)propInfo.GetValue(statementParameters)).Ticks;
+                        long tsval = ((TimeSpan)propInfo.GetValue(statementParameters)).Ticks;
                         propStatements.Append(tsval).AppendLine(";");
                         break;
                     case "Int32[]":
