@@ -55,8 +55,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// 2) ReleaseConnection(false);
         /// 3) [Called by runtime] - Dispose();
         /// </summary>
-        /// <param name="useLogging">true will log events in DEBUG mode. Default is true. Make sure to change this to false for UnitTests.</param>
-        void ReleaseConnection(bool useLogging = true);
+        void ReleaseConnection();
 
         /// <summary>
         /// Executes given Query, regardless of its type (SELECT, INSERT, UPDATE, DELETE, EXECUTE etc.).

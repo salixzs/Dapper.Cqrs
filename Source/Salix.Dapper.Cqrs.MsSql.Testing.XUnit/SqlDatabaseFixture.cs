@@ -136,7 +136,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
                 return;
             }
 
-            _sqlContext.ReleaseConnection(false);
+            _sqlContext.ReleaseConnection();
             _sqlContext.Dispose();
         }
     }

@@ -45,8 +45,8 @@
 
   <!-- === Own references ===-->
   <ItemGroup>
-    <ProjectReference Include="..\..\Salix.Dapper.Cqrs.Abstractions\Salix.Dapper.Cqrs.Abstractions.csproj" />
-    <ProjectReference Include="..\..\Salix.Dapper.Cqrs.MsSql\Salix.Dapper.Cqrs.MsSql.csproj" />
+    <ProjectReference Include="..\Salix.Dapper.Cqrs.Abstractions\Salix.Dapper.Cqrs.Abstractions.csproj" />
+    <ProjectReference Include="..\Salix.Dapper.Cqrs.MsSql\Salix.Dapper.Cqrs.MsSql.csproj" />
   </ItemGroup>
 
 </Project>

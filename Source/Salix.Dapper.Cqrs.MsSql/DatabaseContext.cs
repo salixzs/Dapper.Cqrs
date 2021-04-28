@@ -264,36 +264,26 @@ namespace Salix.Dapper.Cqrs.MsSql
         }
 
         /// <inheritdoc/>
-        public void ReleaseConnection(bool useLogging = true)
+        public void ReleaseConnection()
         {
             if (this.Transaction != null)
             {
                 if (this.Transaction.Connection != null && this.Transaction.Connection.State == ConnectionState.Open)
                 {
-                    if (useLogging)
-                    {
-                        _logger.LogTrace("SQL Transaction (Hash: {Hash}) Commit in ReleaseConnection (business operation complete).", this.Transaction.GetHashCode());
-                    }
-
+                    _logger.LogTrace("SQL Transaction (Hash: {Hash}) Commit in ReleaseConnection (business operation complete).", this.Transaction.GetHashCode());
                     this.Transaction.Commit();
                     this.Transaction.Dispose();
                 }
                 else
                 {
-                    if (useLogging)
-                    {
-                        _logger.LogTrace("SQL Transaction is already completed (Commit or Rollback) in ReleaseConnection.");
-                    }
+                    _logger.LogTrace("SQL Transaction is already completed (Commit or Rollback) in ReleaseConnection.");
                 }
 
                 this.Transaction = null;
             }
             else
             {
-                if (useLogging)
-                {
-                    _logger.LogTrace("SQL Transaction is already NULL in ReleaseConnection.");
-                }
+                _logger.LogTrace("SQL Transaction is already NULL in ReleaseConnection.");
             }
 
             if (_connection != null)
@@ -301,25 +291,16 @@ namespace Salix.Dapper.Cqrs.MsSql
                 if (_connection.State != ConnectionState.Closed)
                 {
                     _connection.Close();
-                    if (useLogging)
-                    {
-                        _logger.LogDebug("Connection closed (ReleaseConnection). (Hash: {Hash})", _connection.GetHashCode());
-                    }
+                    _logger.LogDebug("Connection closed (ReleaseConnection). (Hash: {Hash})", _connection.GetHashCode());
                 }
                 else
                 {
-                    if (useLogging)
-                    {
-                        _logger.LogTrace("SQL Connection is already Closed in ReleaseConnection operation.");
-                    }
+                    _logger.LogTrace("SQL Connection is already Closed in ReleaseConnection operation.");
                 }
             }
             else
             {
-                if (useLogging)
-                {
-                    _logger.LogTrace("SQL Connection is already NULL in ReleaseConnection.");
-                }
+                _logger.LogTrace("SQL Connection is already NULL in ReleaseConnection.");
             }
         }
 
@@ -339,7 +320,7 @@ namespace Salix.Dapper.Cqrs.MsSql
                 return;
             }
 
-            this.ReleaseConnection(true);
+            this.ReleaseConnection();
 
             if (_connection != null)
             {

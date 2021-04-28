@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Source\Salix.Dapper.Cqrs.MsSql\Salix.Dapper.Cqrs.MsSql.csproj" />
-    <ProjectReference Include="..\..\..\Source\Salix.Dapper.Cqrs.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit.csproj" />
+    <ProjectReference Include="..\..\..\Source\Salix.Dapper.Cqrs.MsSql.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit.csproj" />
     <ProjectReference Include="..\Sample.AspNet5Api.Queries\Sample.AspNet5Api.Queries.csproj" />
   </ItemGroup>
 
