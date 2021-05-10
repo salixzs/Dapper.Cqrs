@@ -55,7 +55,7 @@ namespace Sample.AspNet5Api.Database.Tests.Faker
             where T : class
         {
             string classFullName = typeof(T).FullName;
-            if (!_instantiators.ContainsKey(classFullName))
+            if (!this.HasFakeFor(classFullName))
             {
                 throw new ArgumentException($"There is no defined instantiation for {classFullName} object.");
             }
@@ -70,7 +70,7 @@ namespace Sample.AspNet5Api.Database.Tests.Faker
         public object GetTestObject(Type objectType)
         {
             string classFullName = objectType.FullName;
-            if (!_instantiators.ContainsKey(classFullName))
+            if (!this.HasFakeFor(classFullName))
             {
                 throw new ArgumentException($"There is no defined instantiation for {classFullName} object.");
             }
