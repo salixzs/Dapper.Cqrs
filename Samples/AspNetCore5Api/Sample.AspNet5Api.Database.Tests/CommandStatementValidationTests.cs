@@ -2,7 +2,7 @@ using System;
 using Salix.Dapper.Cqrs.Abstractions;
 using Salix.Dapper.Cqrs.MsSql.Testing.XUnit;
 using Sample.AspNet5Api.Commands;
-using Sample.AspNet5Api.Queries;
+using Sample.AspNet5Api.Database.Tests.Faker;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -39,7 +39,7 @@ namespace Sample.AspNet5Api.Database.Tests
         public void CommandClass_SqlValidate_Succeeds(Type commandClassType)
         {
             // We need as-if-real parameters supplied for query (if any)
-            object[] parameters = HelperQueryCommandClasses.CreateDummyParametersForType(commandClassType);
+            object[] parameters = HelperQueryCommandClasses.CreateDummyParametersForType(commandClassType, TestObjectFactory.Instance);
             var instance = (ICommandValidator)Activator.CreateInstance(commandClassType, parameters);
             instance.Validate(this.TestFixture.SqlSession);
 

@@ -18,7 +18,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
         /// </summary>
         /// <param name="classType">Type of IQuery/ICommand (Validatable) class to be instantiated.</param>
         /// <returns>Dummy general parameter array for First() class constructor</returns>
-        public static object[] CreateDummyParametersForType(Type classType)
+        public static object[] CreateDummyParametersForType(Type classType, ITestObjectFactory domainObjectFactory = null)
         {
             // To supply specific parameters - add this method to your query class:
             // private static object[] SupplyTestParameters()
@@ -45,6 +45,12 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
                             ? "SELECT Id FROM FormData"
                             : "123-ABC-456";
 
+                    continue;
+                }
+
+                if (domainObjectFactory != null && domainObjectFactory.HasFakeFor(parameterInfo[index].ParameterType.FullName))
+                {
+                    parameters[index] = domainObjectFactory.GetTestObject(parameterInfo[index].ParameterType);
                     continue;
                 }
 
