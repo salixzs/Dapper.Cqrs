@@ -23,7 +23,7 @@ namespace Sample.AspNet5Api.Database.Tests
             this.InitializeTestContext(outputHelper, testFixture);
 
         /// <summary>
-        /// MEGA-TEST, which looks up all IQuery implementations (see <see cref="QueryValidatorClasses"/> property above)
+        /// MEGA-TEST, which looks up all IQuery implementations (see <see cref="HelperQueryCommandClasses.QueryValidatorClassesForAssemblyType"/> method in helper class)
         /// It validates SqlStatement inside IQuery class by calling its Validate method.
         /// </summary>
         /// <param name="queryClassType">Type of the query class (supplied by [MemberData] attribute method).</param>

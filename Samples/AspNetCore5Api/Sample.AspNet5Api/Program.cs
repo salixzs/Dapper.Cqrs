@@ -19,7 +19,7 @@ namespace Sample.AspNet5Api
             ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder
                     .AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning)
-                    .AddFilter("Sample.AspNet5.Program", LogLevel.Debug)
+                    .AddFilter("Sample.AspNet5Api", LogLevel.Trace)
                     .AddDebug()
                     .AddConsole());
             ILogger<Program> logger = loggerFactory.CreateLogger<Program>();

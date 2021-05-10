@@ -121,6 +121,23 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
             }
         }
 
-
+        /// <summary>
+        /// Attribute based data supply for SqlValidation generic MEGA-test.
+        /// This loads all class names, which are implementing <seealso cref="ICommand{T}"/> interface
+        /// and are also implementing <seealso cref="ICommandValidator"/>/
+        /// </summary>
+        public static IEnumerable<object[]> CommandValidatorClassesForAssemblyType(Type typeFromCommandAssembly)
+        {
+            // Get Commands project assembly, then get all ICommandValidator implementations from it
+            IEnumerable<Type> allCommands = typeFromCommandAssembly.Assembly
+                .GetTypes()
+                .Where(t => t.IsPublic
+                            && t.IsClass
+                            && t.GetInterfaces().Contains(typeof(ICommandValidator)));
+            foreach (Type assemblyClass in allCommands)
+            {
+                yield return new object[] { assemblyClass };
+            }
+        }
     }
 }

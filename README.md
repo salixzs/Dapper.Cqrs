@@ -9,33 +9,12 @@ Project was influenced by another repository - [UPNXT-Dapper-cqrs](https://githu
 
 Packages are targeting .Net Standard 2.0
 
-Detailed documentation is in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
-
-# Installation
-For .Net projects which needs access to database, reference database engine specific package.
-```text
-PM> Salix.Dapper.Cqrs.MsSql
-```
-If you put query and command classes in their own projects, you need to reference just abstractions package
-```text
-PM> Salix.Dapper.Cqrs.Abstractions
-```
-## Registration
-Register package components with your dependency injection container, like here for MS.Extensions.DI
-```csharp
-services.AddScoped<IMsSqlContext, DatabaseContext>(svc =>
-    new DatabaseContext(
-        connectionString,
-        svc.GetService<ILogger<DatabaseContext>>()));
-services.AddScoped<IDatabaseSession, SqlDatabaseSession>();
-services.AddScoped<ICommandQueryContext, CommandQueryContext>();
-```
-Components should be registered with scope, equal to one business operation (Unit of Work). As for ASP.NET Web applications/apis this is per-request scope - Scoped.
+> Detailed documentation is in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
 
 
 # Usage
 
-As application developer you need to do two things (besides writing tests).
+When packages are added and set-up (see "Installation" section below) - as application developer you need to do two things (besides writing tests).
 
 * Create `IQuery` or `ICommand` implementation(s)
 * Inject `ICommandQueryContext` into your class and use it to execute `IQuery` and `ICommand` classes against database engine.
@@ -43,7 +22,7 @@ As application developer you need to do two things (besides writing tests).
 ## IQuery
 Required to be able to read data from database. Create new class and implement its interface:
 ```csharp
-public sealed class SampleQuery : MsSqlQueryBase, IQuery<IEnumerable<SampleData>>
+public sealed class SampleQuery : MsSqlQueryBase<IEnumerable<SampleData>>, IQuery<IEnumerable<SampleData>>
 {
     // hold parameters for query passed into class
     private readonly int _id;
@@ -67,27 +46,28 @@ Here base class `MsSqlQueryBase` is class, implementing most of `IQuery` interfa
 ## ICommand
 Similar to Query, but dedicated to data modification statements.
 ```csharp
-public sealed class SampleCreateCommand : ICommand<int>, ICommandValidator
+public sealed class SampleCreateCommand : MsSqlCommandBase<int>, ICommand<int>, ICommandValidator
 {
     // Holds passed in object to be created as record in DB.
     private readonly SampleData _sampleObject;
     
     // Constructor, getting object to be saved
     public SampleCreateCommand(SampleData dbObject) =>
-            _sampleObject = dbObject ?? throw new ArgumentNullException(nameof(dbObject), "No data passed");
+        _sampleObject = dbObject ?? throw new ArgumentNullException(nameof(dbObject), "No data passed");
     
     // Actual SQL statement to be executed.
     // Here appended statement to get last autoincrement value from DB == inserted record ID.
-    public string SqlStatement => @"
+    public override string SqlStatement => @"
         INSERT INTO SampleTable (
             Name
         ) VALUES (
             @Name
         );SELECT CAST(SCOPE_IDENTITY() as int)";
+
+    // Prepare object for Dapper to pass as parameters for SQL statement
+    public override object Parameters => _sampleObject;
     
-    // Letting Dapper to do its magic with mapping and execution
-    public async Task<int> ExecuteAsync(IDatabaseSession session) =>
-        await session.ExecuteAsync<int>(this.SqlStatement, _sampleObject);
+    // Execute command itself is implemented in base class.
 }
 ```
 
@@ -116,7 +96,28 @@ public async Task<int> Create(SampleData dataObject) =>
     await _db.ExecuteAsync(new SampleCreateCommand(dataObject));
 ```
 
-### Read more detailed documentation in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
+# Installation
+For .Net projects which needs access to database, reference database engine specific package.
+```text
+PM> Salix.Dapper.Cqrs.MsSql
+```
+If you put query and command classes in their own projects, you need to reference just abstractions package
+```text
+PM> Salix.Dapper.Cqrs.Abstractions
+```
+## Registration
+Register package components with your dependency injection container, like here for MS.Extensions.DI
+```csharp
+services.AddScoped<IMsSqlContext, DatabaseContext>(svc =>
+    new DatabaseContext(
+        connectionString,
+        svc.GetService<ILogger<DatabaseContext>>()));
+services.AddScoped<IDatabaseSession, SqlDatabaseSession>();
+services.AddScoped<ICommandQueryContext, CommandQueryContext>();
+```
+Components should be registered with scope, equal to one business operation (Unit of Work). As for ASP.NET Web applications/apis this is per-request scope - Scoped.
+
+> Read more detailed documentation in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
 
 
 ### Like what I created?

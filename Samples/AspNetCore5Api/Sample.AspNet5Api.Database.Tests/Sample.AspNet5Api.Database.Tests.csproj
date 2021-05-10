@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Source\Salix.Dapper.Cqrs.MsSql\Salix.Dapper.Cqrs.MsSql.csproj" />
     <ProjectReference Include="..\..\..\Source\Salix.Dapper.Cqrs.MsSql.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit.csproj" />
+    <ProjectReference Include="..\Sample.AspNet5Api.Commands\Sample.AspNet5Api.Commands.csproj" />
     <ProjectReference Include="..\Sample.AspNet5Api.Queries\Sample.AspNet5Api.Queries.csproj" />
   </ItemGroup>
 
