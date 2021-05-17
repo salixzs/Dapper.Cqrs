@@ -76,13 +76,12 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
                 try
                 {
                     _outputHelper.WriteLine(state.ToString());
+                    return;
                 }
                 catch
                 {
                     // Happens in Dispose() - should be handled by message sink below or (huh) swallowed into void
                 }
-
-                return;
             }
 
             if (_messageSink != null)

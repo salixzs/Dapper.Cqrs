@@ -20,6 +20,15 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
         protected abstract string GetSqlConnectionString();
 
         /// <summary>
+        /// Prepares the database with necessary structures and data, if needed in tests.
+        /// Override and implement in derived class.
+        /// </summary>
+        protected virtual void PrepareDatabase()
+        {
+            // Should be overriden to add preparation statements!
+        }
+
+        /// <summary>
         /// Initializes the test context with necessary objects for each test class.
         /// Should be called from test class constructor.
         /// </summary>
@@ -40,6 +49,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
             this.TestFixture = fixture;
             this.TestFixture.SqlConnection = this.GetSqlConnectionString();
             this.TestFixture.InstantiateDatabaseObjects(helper);
+            this.PrepareDatabase();
         }
     }
 }

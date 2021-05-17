@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Salix.Dapper.Cqrs.Abstractions;
 
 namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
@@ -143,6 +145,65 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
             foreach (Type assemblyClass in allCommands)
             {
                 yield return new object[] { assemblyClass };
+            }
+        }
+
+        /// <summary>
+        /// Retrieves all Public properties names from database data object (DB DTO).
+        /// Pass in DB POCO class to get its property descriptions.
+        /// </summary>
+        /// <typeparam name="T">DB POCO class.</typeparam>
+        public static List<PocoPropertyMetadata> GetPocoObjectProperties<T>()
+        {
+            var propertyNames = new List<PocoPropertyMetadata>();
+            foreach (PropertyInfo props in typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                Type nullableType = Nullable.GetUnderlyingType(props.PropertyType);
+                propertyNames.Add(new PocoPropertyMetadata
+                {
+                    Name = props.Name,
+                    TypeName = nullableType == null ? props.PropertyType.Name : nullableType.Name,
+                    IsNullable = nullableType != null
+                });
+            }
+
+            return propertyNames;
+        }
+    }
+
+    /// <summary>
+    /// Metadata about POCO class property.
+    /// </summary>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
+    public class PocoPropertyMetadata
+    {
+        /// <summary>
+        /// The name of the property.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The type name of the property.
+        /// For nullable types stores underlying (actual) type.
+        /// </summary>
+        public string TypeName { get; set; }
+
+        /// <summary>
+        /// When true - property is nullable.
+        /// </summary>
+        public bool IsNullable { get; set; }
+
+        /// <summary>
+        /// Displays DB object main properties in Debug screen. (Only for development purposes).
+        /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get
+            {
+                var dbgView = new StringBuilder($"{this.Name} ({this.TypeName}");
+                dbgView.Append(this.IsNullable ? "?)" : ")");
+                return dbgView.ToString();
             }
         }
     }
