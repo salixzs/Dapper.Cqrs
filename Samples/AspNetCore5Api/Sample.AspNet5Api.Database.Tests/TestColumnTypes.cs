@@ -33,7 +33,6 @@ namespace Sample.AspNet5Api.Database.Tests
         public Guid GuidGuid { get; set; }
         public string DataXml { get; set; }
 
-
         public int? IntNull { get; set; }
         public long? NumLongNull { get; set; }
         public short? NumSmallNull { get; set; }
@@ -62,5 +61,7 @@ namespace Sample.AspNet5Api.Database.Tests
         public string TxtDefault { get; set; }
         public int NumDefault { get; set; }
         public byte[] AuditTimestamp { get; set; }
+
+        public string NotInDatabase { get; set; }
     }
 }

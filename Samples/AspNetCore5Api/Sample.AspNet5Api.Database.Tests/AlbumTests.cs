@@ -2,26 +2,22 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Salix.Dapper.Cqrs.MsSql.Testing.XUnit;
+using Sample.AspNet5Api.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Sample.AspNet5Api.Database.Tests
 {
-    /// <summary>
-    /// A special test for NuGet package functionality checks.
-    /// Not part of DEMO, although you can use it as reference to possibilities.
-    /// </summary>
-    public class ColumnTypesTests : DatabaseTestsBase
+    public class AlbumTests : DatabaseTestsBase
     {
-        public ColumnTypesTests(ITestOutputHelper outputHelper, SqlDatabaseFixture testFixture) =>
+        public AlbumTests(ITestOutputHelper outputHelper, SqlDatabaseFixture testFixture) =>
             this.InitializeTestContext(outputHelper, testFixture);
 
         [Fact]
         public async Task Columns_Db2Dto_Match()
         {
             this.TestFixture.ReopenTransaction();
-            var exceptPocoProperties = new HashSet<string> { "NotInDatabase" };
-            List<string> compareProblems = await HelperDatabaseTests.CompareDatabaseWithContract<TestColumnTypes>(this.TestFixture, exceptPocoProperties: exceptPocoProperties);
+            List<string> compareProblems = await HelperDatabaseTests.CompareDatabaseWithContract<Album>(this.TestFixture);
             foreach (string problem in compareProblems)
             {
                 this.TestFixture.WriteOutput(problem);
