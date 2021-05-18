@@ -21,10 +21,11 @@ namespace Sample.AspNet5Api.Queries
         /// Actual SQL Statement to execute against MS SQL database.
         /// </summary>
         public override string SqlStatement => @"
-SELECT ArtistId,
-       Name
-  FROM Artist
- WHERE ArtistId = @id";
+SELECT AlbumId,
+       Title,
+       ArtistId
+  FROM Album
+ WHERE AlbumId = @id";
 
         /// <summary>
         /// Anonymous object of SqlQuery parameter(s).
