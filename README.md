@@ -1,7 +1,7 @@
 # Dapper.Cqrs
 > **(Still under construction! NuGet Packages not yet published!)**
 
-Libraries (NuGet packages) to help employ [CQRS](https://martinfowler.com/bliki/CQRS.html) (Command Query Responsibility Segregation) pattern to database access in various .Net projects.
+Libraries (NuGet packages) to help employ [CQRS](https://martinfowler.com/bliki/CQRS.html) (Command Query Responsibility Segregation) pattern to database access in various .Net projects. Approach unifies database data retrieval under CQRS handler, which is the only dependency for business logic (getting rid of multiple repository injections).
 
 Package uses [Dapper](https://stackexchange.github.io/Dapper/) - a simple object mapper for .Net built by StackOverflow developers and is one of the most performing ORMs in .Net landscape (if not fastest).
 
@@ -16,8 +16,8 @@ Packages are targeting .Net Standard 2.0
 
 When packages are added and set-up (see "Installation" section below) - as application developer you need to do two things (besides writing tests).
 
-* Create `IQuery` or `ICommand` implementation(s)
-* Inject `ICommandQueryContext` into your class and use it to execute `IQuery` and `ICommand` classes against database engine.
+* Create `IQuery` (Data retrieval) or `ICommand` (Data modification) implementation classes.
+* Inject `ICommandQueryContext` into your business logic class and use it to execute `IQuery` and `ICommand` classes against database engine. This is the only dependency required to work with database (Yeah, no more numerous repositories to depend upon!)
 
 ## IQuery
 Required to be able to read data from database. Create new class and implement its interface:
@@ -79,7 +79,7 @@ public class SampleLogic : ISampleLogic
 {
     private readonly ICommandQueryContext _db;
     
-    // Constructor
+    // Constructor - yes, inject just this one (no more numerous repositories!)
     public SampleLogic(ICommandQueryContext db) => _db = db;
 }
 ```
