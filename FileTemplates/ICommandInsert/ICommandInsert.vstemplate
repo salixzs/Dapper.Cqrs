@@ -1,0 +1,18 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>InsertCommand.cs</DefaultName>
+    <Name>Command class (INSERT)</Name>
+    <Description>
+ICommand implementation to create (INSERT) data in database.
+
+C# class boilerplate code to use, implementing functionality with Dapper.CQRS package.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>4</SortOrder>
+    <Icon>DapperCQRS.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">ICommandInsert.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

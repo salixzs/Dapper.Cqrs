@@ -138,7 +138,7 @@ namespace Salix.Dapper.Cqrs.MsSql
         public TimeSpan ExecutionTime { get; private set; }
 
         /// <summary>
-        /// Creates SQL database Context to use for CQRS functionalities to access database through Dapper ORM.
+        /// Creates SQL database Context to use for CQRS functionality to access database through Dapper ORM.
         /// Used in <see cref="IDatabaseSession"/> implementation methods to do lowest level
         /// Dapper executions against database, using DB connection provided here.
         /// </summary>
@@ -329,7 +329,7 @@ namespace Salix.Dapper.Cqrs.MsSql
         }
 
         /// <summary>
-        /// String representation of current SQL Context.
+        /// String representation of current SQL Context. Informative, not to be used in functionality!
         /// </summary>
         public override string ToString()
         {

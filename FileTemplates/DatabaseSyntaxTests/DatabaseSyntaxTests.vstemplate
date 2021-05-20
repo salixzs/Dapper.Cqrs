@@ -1,0 +1,20 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>DatabaseSyntaxTests.cs</DefaultName>
+    <Name>Database SQL Syntax tests (xUnit)</Name>
+    <Description>
+Query and Command class SQL statement syntax tests.
+
+Needs to be created only ONCE as they test all existing Queries and Commands!
+
+C# class boilerplate code to use, implementing functionality with Dapper.CQRS package.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>10</SortOrder>
+    <Icon>DapperCQRS.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">DatabaseSyntaxTests.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

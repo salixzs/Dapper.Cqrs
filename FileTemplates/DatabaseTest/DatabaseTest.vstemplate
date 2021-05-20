@@ -1,18 +1,19 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
   <TemplateData>
-    <DefaultName>DbCommand.cs</DefaultName>
-    <Name>Command class (modify data)</Name>
+    <DefaultName>DatabaseTest.cs</DefaultName>
+    <Name>Database test (xUnit)</Name>
     <Description>
-ICommand implementation to create/update/delete data in database.
+Matching test (DTO<->DB). 
+Save/Read test.
 
 C# class boilerplate code to use, implementing functionality with Dapper.CQRS package.
     </Description>
     <ProjectType>CSharp</ProjectType>
-    <SortOrder>4</SortOrder>
+    <SortOrder>8</SortOrder>
     <Icon>DapperCQRS.ico</Icon>
   </TemplateData>
   <TemplateContent>
     <References />
-    <ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">ICommand.cs</ProjectItem>
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">DatabaseTest.cs</ProjectItem>
   </TemplateContent>
 </VSTemplate>

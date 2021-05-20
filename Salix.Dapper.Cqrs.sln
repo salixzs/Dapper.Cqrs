@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Salix.Dapper.Cqrs.MsSql.Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{71FE68B5-D8D4-4600-9E17-E981FCA77026}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Salix.Dapper.Cqrs.MsSql.Testing.XUnit", "Source\Salix.Dapper.Cqrs.MsSql.Testing.XUnit\Salix.Dapper.Cqrs.MsSql.Testing.XUnit.csproj", "{86F8CDA0-9A44-4ADB-81A6-231712037FA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{4C9A4A27-1C76-4D92-902C-F2AF961A206E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C9A4A27-1C76-4D92-902C-F2AF961A206E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C9A4A27-1C76-4D92-902C-F2AF961A206E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86F8CDA0-9A44-4ADB-81A6-231712037FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F8CDA0-9A44-4ADB-81A6-231712037FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86F8CDA0-9A44-4ADB-81A6-231712037FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86F8CDA0-9A44-4ADB-81A6-231712037FA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,18 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>UpdateCommand.cs</DefaultName>
+    <Name>Command class (UPDATE)</Name>
+    <Description>
+ICommand implementation to UPDATE data in database.
+
+C# class boilerplate code to use, implementing functionality with Dapper.CQRS package.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>5</SortOrder>
+    <Icon>DapperCQRS.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">ICommandUpdate.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

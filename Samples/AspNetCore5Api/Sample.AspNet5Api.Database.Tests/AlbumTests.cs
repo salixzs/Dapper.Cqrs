@@ -43,7 +43,7 @@ namespace Sample.AspNet5Api.Database.Tests
             Album testBogus = TestObjectFactory.Instance.GetTestObject<Album>();
             testBogus.ArtistId = dependencyBogusArtistId;
             int testBogusAlbumId = await this.TestFixture.Db.ExecuteAsync(new AlbumCreateCommand(testBogus));
-            this.TestFixture.WriteOutput($"Created album with ID: {dependencyBogusArtistId}");
+            this.TestFixture.WriteOutput($"Created album with ID: {testBogusAlbumId}");
 
             // Now read back saved data in testable object
             Album testable = await this.TestFixture.Db.QueryAsync(new AlbumByIdQuery(testBogusAlbumId));

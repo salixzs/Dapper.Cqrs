@@ -1,9 +1,11 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
 {
     /// <inheritdoc cref="ICommandQueryContext"/>
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class CommandQueryContext : ICommandQueryContext
     {
         private readonly IDatabaseSession _databaseSession;
@@ -40,6 +42,10 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// <inheritdoc/>
         public void RollbackTransaction() => _databaseSession.RollbackTransaction();
 
+        /// <inheritdoc/>
         public TimeSpan ExecutionTime => _databaseSession.ExecutionTime;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay => "CQRS context on " + _databaseSession.ToString();
     }
 }

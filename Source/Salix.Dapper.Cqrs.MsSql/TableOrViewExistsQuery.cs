@@ -6,7 +6,7 @@ using Salix.Dapper.Cqrs.Abstractions;
 namespace Salix.Dapper.Cqrs.MsSql
 {
     /// <summary>
-    /// Returns True/False depending on whether supplied table or view name exists in database.
+    /// Returns True/False depending on whether supplied table or view exists in database.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     [ExcludeFromCodeCoverage]
@@ -16,7 +16,7 @@ namespace Salix.Dapper.Cqrs.MsSql
         private readonly string _objectName;
 
         /// <summary>
-        /// Returns True/False depending on whether supplied table or view name exists in database.
+        /// Returns True/False depending on whether supplied table or view exists in database.
         /// </summary>
         /// <param name="objectName">The database object (Table, View) name.</param>
         public TableOrViewExistsQuery(string objectName) => _objectName = objectName;

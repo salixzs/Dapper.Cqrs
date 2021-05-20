@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
 using Xunit.Abstractions;
@@ -6,6 +7,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
 {
     [Trait("Category", "Database")]
     [ExcludeFromCodeCoverage]
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public abstract class MsSqlTestBase
     {
         /// <summary>
@@ -51,5 +53,8 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
             this.TestFixture.InstantiateDatabaseObjects(helper);
             this.PrepareDatabase();
         }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay => "MsSql tests base class, using " + this.TestFixture.ToString();
     }
 }

@@ -1,0 +1,19 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>DataPoco.cs</DefaultName>
+    <Name>Data contract (POCO)</Name>
+    <Description>
+A simple data contract POCO class for record mapping from database.
+Contains debug information attributes and property.
+
+C# class boilerplate code to use, implementing functionality with Dapper.CQRS package.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>7</SortOrder>
+    <Icon>DapperCQRS.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">DataPoco.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

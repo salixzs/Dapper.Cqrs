@@ -1,5 +1,6 @@
 # Dapper.Cqrs
-> **(Still under construction! NuGet Packages not yet published!)**
+
+<img align="left" src="DapperCQRS.png">
 
 Libraries (NuGet packages) to help employ [CQRS](https://martinfowler.com/bliki/CQRS.html) (Command Query Responsibility Segregation) pattern to database access in various .Net projects. Approach unifies database data retrieval under CQRS handler, which is the only dependency for business logic (getting rid of multiple repository injections).
 

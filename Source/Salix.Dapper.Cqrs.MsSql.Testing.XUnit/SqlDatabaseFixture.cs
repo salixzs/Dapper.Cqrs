@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -15,6 +16,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
     /// Database connection is Commit after all tests are run. <seealso cref="RollbackTransaction"/> and <seealso cref="ReopenTransaction"/>
     /// </summary>
     [ExcludeFromCodeCoverage]
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SqlDatabaseFixture : IDisposable
     {
         private readonly IMessageSink _messageSink;
@@ -139,5 +141,15 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
             _sqlContext.ReleaseConnection();
             _sqlContext.Dispose();
         }
+
+        /// <summary>
+        /// Object representation as String. Informal!
+        /// </summary>
+        public override string ToString() => _sqlContext.Connection != null
+                ? $"XUnit fixture for MsSql: {_sqlContext.Connection.Database} on {_sqlContext.Connection.DataSource}"
+                : "XUnit fixture for MsSql: Connection not established!";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay => this.ToString();
     }
 }

@@ -18,29 +18,35 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugSymbols>true</DebugSymbols>
-    <PackageTags>cqrs;dapper;database;mssql</PackageTags>
+    <PackageTags>cqrs;dapper;database;mssql;orm;orm-extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <!--<PackageIcon>dapper-cqrs.png</PackageIcon>-->
+    <PackageIcon>DapperCQRS.png</PackageIcon>
     <Description>
-      
+Use Dapper in Command Query Responsibility Segregation principle (CQRS) manner against Microsoft SQL database engine.
+Entire Salix.Dapper.CQRS package suite provides easy, testable and well documented approach to work with database from .Net application projects.
+Available new file templates takes care of creating necessary boilerplate code.
     </Description>
-    <PackageProjectUrl>https://github.com/salixzs/Dapper.Cqrs</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/salixzs/Dapper.Cqrs/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/salixzs/Dapper.Cqrs</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
     <PackageReleaseNotes>
-
+Initial release providing ability to use Dapper in CQRS manner against MS SQL database engine.
     </PackageReleaseNotes>
-    <Version>1.0.0-alpha.1</Version>
+    <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="../../DapperCQRS.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
   <!-- === 3rd party references ===-->
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.78" />
+    <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.14" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.15" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 

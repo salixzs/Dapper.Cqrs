@@ -42,7 +42,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
         /// Compares the database column descriptions with data contract properties
         /// and reports any misalignment (missing columns, missing properties, incompatible types used, null-ability for both).
         /// </summary>
-        /// <typeparam name="T">Type of data contract.</typeparam>
+        /// <typeparam name="T">Type of data contract (DB POCO class).</typeparam>
         /// <param name="fixture">The database tests fixture for getting database object columns metadata.</param>
         /// <param name="tableName">Name of the table. Default (if not used) = data contract name.</param>
         /// <param name="exceptPocoProperties">The exceptions to be used for data contract properties (extra properties, which should not be considered). When not specified - uses all found properties.</param>

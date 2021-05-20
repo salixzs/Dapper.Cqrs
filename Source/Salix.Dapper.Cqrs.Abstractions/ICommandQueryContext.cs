@@ -14,14 +14,14 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes Query object (in "cQrs") onto SQL database, returning Domain object(s).
         /// Example:
         /// <code>
-        /// List{DOMAN_OBJECT} result = await cqrs.QueryAsync(new QueryInterfaceImplemetation(parameter));
+        /// List{DomainObject} result = await cqrs.QueryAsync(new QueryInterfaceImplementation(parameter));
         /// </code>
         /// </summary>
         /// <remarks>
         /// Use Execute(<see cref="ICommand"/>) to change data in database.
         /// </remarks>
         /// <typeparam name="T">Domain (as in DDD) object.</typeparam>
-        /// <param name="sqlQuery">The query object.</param>
+        /// <param name="sqlQuery">The query class object, implementing IQuery interface.</param>
         Task<T> QueryAsync<T>(IQuery<T> sqlQuery);
 
 
@@ -29,41 +29,41 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes Command object (in "Cqrs") onto SQL database, usually modifying data there.
         /// Example:
         /// <code>
-        /// await cqrs.ExecuteAsync(new CommandInterfaceImplemetation(parameters));
+        /// await cqrs.ExecuteAsync(new CommandInterfaceImplementation(parameters));
         /// </code>
         /// </summary>
         /// <remarks>
         /// Use <see cref="IQuery{T}" /> for reading data from database.
         /// </remarks>
-        /// <param name="command">The command object.</param>
+        /// <param name="command">The command class object, implementing ICommand interface.</param>
         Task ExecuteAsync(ICommand command);
 
         /// <summary>
         /// Executes Command object (in "Cqrs") onto SQL database, probably modifying data there and returning data as well.
         /// Example:
         /// <code>
-        /// var id = await cqrs.ExecuteAsync(new CommandInterfaceImplemetation(parameters));
+        /// var id = await cqrs.ExecuteAsync(new CommandInterfaceImplementation(parameters));
         /// </code>
         /// </summary>
         /// <remarks>
         /// Use <see cref="IQuery{T}" /> for reading data from database.
         /// </remarks>
         /// <typeparam name="T">Type expected to be returned by executing command.</typeparam>
-        /// <param name="command">The command object.</param>
+        /// <param name="command">The command class object, implementing ICommand interface.</param>
         Task<T> ExecuteAsync<T>(ICommand<T> command);
 
         /// <summary>
         /// Executes Query object (in "cQrs") onto SQL database, returning Domain object(s).
         /// Example:
         /// <code>
-        /// List{DOMAN_OBJECT} result = cqrs.Query(new QueryInterfaceImplemetation(parameter));
+        /// List{DomainObject} result = cqrs.Query(new QueryInterfaceImplementation(parameter));
         /// </code>
         /// </summary>
         /// <remarks>
         /// Use Execute(<see cref="ICommand"/>) to change data in database.
         /// </remarks>
         /// <typeparam name="T">Domain (as in DDD) object.</typeparam>
-        /// <param name="sqlQuery">The query object.</param>
+        /// <param name="sqlQuery">The query class object, implementing IQuery interface.</param>
         T Query<T>(IQuery<T> sqlQuery);
 
 
@@ -71,27 +71,27 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes Command object (in "Cqrs") onto SQL database, usually modifying data there without returning any data.
         /// Example:
         /// <code>
-        /// await cqrs.Execute(new CommandInterfaceImplemetation(parameters));
+        /// await cqrs.Execute(new CommandInterfaceImplementation(parameters));
         /// </code>
         /// </summary>
         /// <remarks>
         /// Use <see cref="IQuery{T}" /> for reading data from database.
         /// </remarks>
-        /// <param name="command">The command object.</param>
+        /// <param name="command">The command class object, implementing ICommand interface.</param>
         void Execute(ICommand command);
 
         /// <summary>
         /// Executes Command object (in "Cqrs") onto SQL database, probably modifying data there and returning data as well.
         /// Example:
         /// <code>
-        /// var id = cqrs.Execute(new CommandInterfaceImplemetation(parameters));
+        /// var id = cqrs.Execute(new CommandInterfaceImplementation(parameters));
         /// </code>
         /// </summary>
         /// <remarks>
         /// Use <see cref="IQuery{T}" /> for reading data from database.
         /// </remarks>
         /// <typeparam name="T">Type expected to be returned by executing command.</typeparam>
-        /// <param name="command">The command object.</param>
+        /// <param name="command">The command class object, implementing ICommand interface.</param>
         T Execute<T>(ICommand<T> command);
 
         /// <summary>

@@ -1,0 +1,21 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>DatabaseTestsBase.cs</DefaultName>
+    <Name>Database tests base (xUnit)</Name>
+    <Description>
+Base class for database assembly/integration tests.
+Additionally tests collection Attribute for database tests.
+
+Needs to be created only ONCE!
+
+C# class boilerplate code to use, implementing functionality with Dapper.CQRS package.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <SortOrder>9</SortOrder>
+    <Icon>DapperCQRS.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">DatabaseTestsBase.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

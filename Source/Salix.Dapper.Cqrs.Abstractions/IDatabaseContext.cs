@@ -17,7 +17,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         DbConnection Connection { get; }
 
         /// <summary>
-        /// Stores execution time of last statement, passed to <see cref="ExecuteSql{T}(Func{T}, string)"/> method.
+        /// Stores execution time of last statement, passed to <see cref="ExecuteSql{T}(Func{IDbTransaction,T})"/> method.
         /// </summary>
         TimeSpan ExecutionTime { get; }
 
@@ -33,7 +33,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Also usable for integration testing when created data is not desirable to leave in database.
         /// NOTE: Should handle Rollback when application throws exception.
         /// </summary>
-        /// <param name="isFinal">False - will reopen new transaction after rollbacking current one. True - Rollback current transaction and do not open new one. Default = false.</param>
+        /// <param name="isFinal">False - will reopen new transaction after rollback of current one. True - Rollback current transaction and do not open new one. Default = false.</param>
         void RollbackTransaction(bool isFinal = false);
 
         /// <summary>
