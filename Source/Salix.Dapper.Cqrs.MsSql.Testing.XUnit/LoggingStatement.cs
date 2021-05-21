@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
     /// Data contract for Logging statement, used in XUnitLogger.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
+    [ExcludeFromCodeCoverage]
     public class LoggingStatement
     {
         /// <summary>
