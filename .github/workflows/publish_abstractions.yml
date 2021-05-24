@@ -1,0 +1,30 @@
+name: Publish Abstractions NuGet
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+        
+    - name: Install dependencies
+      run: dotnet restore Source/Salix.Dapper.Cqrs.Abstractions/Salix.Dapper.Cqrs.Abstractions.csproj
+      
+    - name: Build
+      run: dotnet build Source/Salix.Dapper.Cqrs.Abstractions/Salix.Dapper.Cqrs.Abstractions.csproj --configuration Release --no-restore 
+
+    #- name: Publish NuGet package
+    #  uses: brandedoutcast/publish-nuget@v2.5.5
+    #  with:
+    #      PROJECT_FILE_PATH: Source/Salix.AspNetCore.Utilities/Salix.AspNetCore.Utilities.csproj
+    #      NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    #      NUGET_SOURCE: https://api.nuget.org
+    #      INCLUDE_SYMBOLS: true
