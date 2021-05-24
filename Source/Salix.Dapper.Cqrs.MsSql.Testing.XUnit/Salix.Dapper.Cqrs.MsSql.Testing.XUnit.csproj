@@ -35,7 +35,7 @@ This package contains base classes to ease application testing for built functio
     <PackageReleaseNotes>
 Initial release of xUnit test helpers for Dapper.CQRS suite for MS SQL database engine.
     </PackageReleaseNotes>
-    <Version>1.0.0</Version>
+    <Version>1.0.0-rc1</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>

@@ -33,7 +33,7 @@ Available new file templates takes care of creating necessary boilerplate code.
     <PackageReleaseNotes>
 Initial release providing ability to use Dapper in CQRS manner against MS SQL database engine.
     </PackageReleaseNotes>
-    <Version>1.0.0</Version>
+    <Version>1.0.0-rc1</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
