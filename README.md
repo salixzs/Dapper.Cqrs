@@ -10,8 +10,13 @@ Project was influenced by another repository - [UPNXT-Dapper-cqrs](https://githu
 
 Packages are targeting .Net Standard 2.0
 
-> Detailed documentation is in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
+| Package | NuGet | Build |  Code Coverage | Downloads |
+| ------- | ----- | ----- | -------------- | --------- |
+| Dapper.CQRS.Abstractions | N/A | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/4?style=plastic&logo=azuredevops&logoColor=blue) | [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/SmartDance/GitHubProjects/4?color=green&logo=azuredevops&logoColor=blue&style=plastic)](https://dev.azure.com/SmartDance/GitHubProjects/_build?definitionId=4) | N/A |
+| Dapper.CQRS.MsSql | N/A | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/5?style=plastic&logo=azuredevops&logoColor=blue) | [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/SmartDance/GitHubProjects/5?color=green&logo=azuredevops&logoColor=blue&style=plastic)](https://dev.azure.com/SmartDance/GitHubProjects/_build?definitionId=5) | N/A |
+| Dapper.CQRS.Testing.MsSql.xUnit | N/A | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/6?style=plastic&logo=azuredevops&logoColor=blue) | N/A | N/A |
 
+> Detailed documentation is in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
 
 # Usage
 
