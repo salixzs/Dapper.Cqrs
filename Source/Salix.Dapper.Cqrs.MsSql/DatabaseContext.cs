@@ -54,6 +54,11 @@ namespace Salix.Dapper.Cqrs.MsSql
                 // This happens if Connection property of this context is disposed (used in USING statement)
                 if (string.IsNullOrEmpty(_connection.ConnectionString))
                 {
+                    if (this.Transaction != null)
+                    {
+                        _logger.LogWarning("It seems that SqlConnection was closed without handling transaction properly (Connection direct use is not healthy).");
+                    }
+
                     _connection.ConnectionString = _connectionString;
                 }
 
@@ -276,7 +281,7 @@ namespace Salix.Dapper.Cqrs.MsSql
                 }
                 else
                 {
-                    _logger.LogTrace("SQL Transaction is already completed (Commit or Rollback) in ReleaseConnection.");
+                    _logger.LogWarning("SQL Transaction has its associated connection closed. It may cause problems and may indicate wrong use of context connection.");
                 }
 
                 this.Transaction = null;

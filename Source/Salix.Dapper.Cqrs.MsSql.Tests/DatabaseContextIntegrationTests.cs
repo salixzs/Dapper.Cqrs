@@ -56,6 +56,24 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
         }
 
         [Fact]
+        public void Using_Disposed_ReopensConnection()
+        {
+            // This is wrong usage of connection, but bad developers can do weird things. so this functionality test.
+            var initialConnectionHash = _sut.Connection.GetHashCode();
+            using (var conn = _sut.Connection)
+            {
+                // No-op
+            } // Connection gets disposed here
+
+            ((SqlConnection)ChinookLightTestsFixture.GetInternalConnection(_sut))
+                .State.Should().Be(ConnectionState.Closed);
+
+            var sameConnectionHash = _sut.Connection.GetHashCode(); // Should reopen connection as EnsureOpenConnection() is called by prop getter.
+            initialConnectionHash.Should().Be(sameConnectionHash);
+            _sut.Connection.State.Should().Be(ConnectionState.Open);
+        }
+
+        [Fact]
         public void ToString_Unused_NotConnected() => _ = _sut.ToString().Should().Be("Connection not open");
 
         [Fact]
@@ -105,8 +123,8 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
         [Fact]
         public void Dispose_DisposedConnection_CheckLog()
         {
-            // Should NOT use this in such manner. Transaction is most likely Rollback-ed.
-            // Here it is to ensure it still works even if used incorrectly.
+            // Should NOT use this in such manner. Transaction is most likely Rollback-ed and may hold other transactions from doing their job (locked).
+            // Here it is to ensure it still [kinda] works even if used incorrectly.
             using (var conn = _sut.Connection)
             {
                 conn.Should().NotBeNull();
@@ -133,7 +151,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
             _log.LoggedMessages[5].Should().Contain("Event: MS SQL Connection StateChange (Open => Closed)");
             _log.LoggedMessages[6].Should().Contain("Event: MS SQL Connection got disposed");
             _log.LoggedMessages[7].Should().Contain("--- Calling DatabaseContext.Dispose() explicitly NOW");
-            _log.LoggedMessages[8].Should().Contain("SQL Transaction is already completed");
+            _log.LoggedMessages[8].Should().Contain("SQL Transaction has its associated connection closed");
             _log.LoggedMessages[9].Should().Contain("SQL Connection is already Closed in ReleaseConnection operation");
             _log.LoggedMessages[10].Should().Contain("Event: MS SQL Connection got disposed");
         }

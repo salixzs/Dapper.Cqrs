@@ -8,7 +8,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
     /// </summary>
     [ExcludeFromCodeCoverage]
 
-    public sealed class CheckSqlFuctionCreateCommand : MsSqlCommandBase, ICommand
+    public sealed class CheckSqlFunctionCreateCommand : MsSqlCommandBase, ICommand
     {
         /// <summary>
         /// Actual SQL Statement to execute against MS SQL database.

@@ -49,7 +49,7 @@ namespace Sample.AspNet5Api.Database.Tests
 
             if (!this.TestFixture.Db.Query(new FunctionExistsQuery("CheckSql")))
             {
-                this.TestFixture.Db.Execute(new CheckSqlFuctionCreateCommand());
+                this.TestFixture.Db.Execute(new CheckSqlFunctionCreateCommand());
             }
 
             this.TestFixture.Db.CommitTransaction();

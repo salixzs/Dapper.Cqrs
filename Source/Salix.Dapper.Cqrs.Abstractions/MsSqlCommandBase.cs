@@ -15,7 +15,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Property to hold SQL Statement used for Command class.
         /// Should be overridden in derived class.
         /// </summary>
-        public virtual string SqlStatement => "Sql Statement is not overridden in inheriting class";
+        public virtual string SqlStatement => "SQL Statement is not overridden in inheriting class";
 
         /// <summary>
         /// Anonymous object of SqlStatement parameters.
@@ -51,6 +51,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
             }
         }
 
+        public override string ToString() => this.SqlStatement.ToShortSql();
+
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private string DebuggerDisplay => this.SqlStatement.ToShortSql();
     }
@@ -67,7 +69,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Property to hold SQL Statement used for Command class.
         /// Should be overridden in derived class.
         /// </summary>
-        public virtual string SqlStatement => "Sql Statement is not overridden in inheriting class";
+        public virtual string SqlStatement => "SQL Statement is not overridden in inheriting class";
 
         /// <summary>
         /// Anonymous object of SqlStatement parameters.
@@ -103,9 +105,9 @@ namespace Salix.Dapper.Cqrs.Abstractions
             }
         }
 
+        public override string ToString() => this.SqlStatement.ToShortSql();
+
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private string DebuggerDisplay => this.SqlStatement.ToShortSql();
-
-        public override string ToString() => nameof(T);
     }
 }
