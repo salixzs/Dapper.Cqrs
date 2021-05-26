@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Salix.Dapper.Cqrs.Abstractions;
 using Sample.AspNet5Api.Domain;
 
@@ -7,7 +6,7 @@ namespace Sample.AspNet5Api.Queries
     /// <summary>
     /// Retrieves an Artist from database by its ID.
     /// </summary>
-    public sealed class ArtistByIdQuery : MsSqlQueryBase<Artist>, IQuery<Artist>
+    public sealed class ArtistByIdQuery : MsSqlQuerySingleBase<Artist>
     {
         private readonly int _objectId;
 
@@ -30,12 +29,5 @@ SELECT ArtistId,
         /// Anonymous object of SqlQuery parameter(s).
         /// </summary>
         public override object Parameters => new { id = _objectId };
-
-        /// <summary>
-        /// Executes the query in <see cref="SqlStatement"/> asynchronously, using parameters in <see cref="Parameters"/>.
-        /// </summary>
-        /// <param name="session">The database session object, injected by IoC.</param>
-        public async Task<Artist> ExecuteAsync(IDatabaseSession session)
-            => await session.QueryFirstOrDefaultAsync<Artist>(this.SqlStatement, this.Parameters);
     }
 }

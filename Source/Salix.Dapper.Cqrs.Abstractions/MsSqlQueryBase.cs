@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
 {
+
     /// <summary>
     /// Base class for <see cref="IQuery{T}"/> implementations.
     /// Expects ExecuteAsync to be implemented in derived class, meanwhile implementing (throws NotImplementedException) synchronous Execute method.
@@ -9,7 +12,43 @@ namespace Salix.Dapper.Cqrs.Abstractions
     /// Implements RealSqlStatement property, which can be used in debug time to get SQL statement with parameter definitions for copy/paste into SQL Development Studio.
     /// </summary>
     [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
-    public abstract class MsSqlQueryBase<T>
+    public abstract class MsSqlQuerySingleBase<T> : MsSqlQueryBase, IQuery<T>
+    {
+        /// <summary>
+        /// Actual executable method of database query which returns data from database.
+        /// NOTE: Abstract class method throws <see cref="NotImplementedException"/>. Override in implementing class if needed.
+        /// </summary>
+        /// <param name="session">The database connection session.</param>
+        public virtual T Execute(IDatabaseSession session) => session.QueryFirstOrDefault<T>(this.SqlStatement, this.Parameters);
+        public virtual async Task<T> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<T>(this.SqlStatement, this.Parameters);
+    }
+
+    /// <summary>
+    /// Base class for <see cref="IQuery{T}"/> implementations.
+    /// Expects ExecuteAsync to be implemented in derived class, meanwhile implementing (throws NotImplementedException) synchronous Execute method.
+    /// Provides Validation method, using special "CheckSql" SQL function. (See documentation).
+    /// Implements RealSqlStatement property, which can be used in debug time to get SQL statement with parameter definitions for copy/paste into SQL Development Studio.
+    /// </summary>
+    [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
+    public abstract class MsSqlQueryMultipleBase<T> : MsSqlQueryBase, IQuery<IEnumerable<T>>
+    {
+        /// <summary>
+        /// Actual executable method of database query which returns data from database.
+        /// NOTE: Abstract class method throws <see cref="NotImplementedException"/>. Override in implementing class if needed.
+        /// </summary>
+        /// <param name="session">The database connection session.</param>
+        public virtual IEnumerable<T> Execute(IDatabaseSession session) => session.Query<T>(this.SqlStatement, this.Parameters);
+        public virtual async Task<IEnumerable<T>> ExecuteAsync(IDatabaseSession session) => await session.QueryAsync<T>(this.SqlStatement, this.Parameters);
+    }
+
+    /// <summary>
+    /// Base class for <see cref="IQuery{T}"/> implementations.
+    /// Expects ExecuteAsync to be implemented in derived class, meanwhile implementing (throws NotImplementedException) synchronous Execute method.
+    /// Provides Validation method, using special "CheckSql" SQL function. (See documentation).
+    /// Implements RealSqlStatement property, which can be used in debug time to get SQL statement with parameter definitions for copy/paste into SQL Development Studio.
+    /// </summary>
+    [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
+    public abstract class MsSqlQueryBase
     {
         /// <summary>
         /// Property to hold SQL Statement used for Query class.
@@ -44,13 +83,6 @@ namespace Salix.Dapper.Cqrs.Abstractions
                 throw new DatabaseStatementSyntaxException(result, this.SqlStatement);
             }
         }
-
-        /// <summary>
-        /// Actual executable method of database query which returns data from database.
-        /// NOTE: Abstract class method throws <see cref="NotImplementedException"/>. Override in implementing class if needed.
-        /// </summary>
-        /// <param name="session">The database connection session.</param>
-        public virtual T Execute(IDatabaseSession session) => throw new NotImplementedException("For MS SQL Server best use ExecuteAsync() or implement this method (overdrive) in IQuery class.");
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private string DebuggerDisplay => this.SqlStatement.ToShortSql();

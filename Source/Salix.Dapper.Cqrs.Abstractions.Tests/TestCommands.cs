@@ -4,12 +4,12 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
 {
 
     [ExcludeFromCodeCoverage]
-    public sealed class EmptyCommand : MsSqlCommandBase, ICommand
+    public sealed class EmptyCommand : MsSqlCommandBase
     {
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class SimpleCommand : MsSqlCommandBase, ICommand
+    public sealed class SimpleCommand : MsSqlCommandBase
     {
         public override string SqlStatement => "UPDATE Table SET Fld = @val";
 

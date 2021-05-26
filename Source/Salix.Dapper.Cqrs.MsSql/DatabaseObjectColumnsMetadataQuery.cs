@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using System.Threading.Tasks;
 using Salix.Dapper.Cqrs.Abstractions;
 
 namespace Salix.Dapper.Cqrs.MsSql
@@ -10,10 +8,9 @@ namespace Salix.Dapper.Cqrs.MsSql
     /// <summary>
     /// Retrieves a list of columns and its properties in specified database object (table, view).
     /// </summary>
-    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     [ExcludeFromCodeCoverage]
 
-    public sealed class DatabaseObjectColumnsMetadataQuery : MsSqlQueryBase<IEnumerable<DatabaseObjectColumnMetadata>>, IQuery<IEnumerable<DatabaseObjectColumnMetadata>>
+    public sealed class DatabaseObjectColumnsMetadataQuery : MsSqlQueryMultipleBase<DatabaseObjectColumnMetadata>
     {
         private readonly string _objectName;
 
@@ -43,19 +40,6 @@ WHERE  TABLE_NAME = @ObjectName
         /// Anonymous object of Table Name.
         /// </summary>
         public override object Parameters => new { ObjectName = _objectName };
-
-        /// <summary>
-        /// Executes the query in <see cref="SqlStatement"/> asynchronously, using parameters in <see cref="Parameters"/>.
-        /// </summary>
-        /// <param name="session">The database session object, injected by IoC.</param>
-        public async Task<IEnumerable<DatabaseObjectColumnMetadata>> ExecuteAsync(IDatabaseSession session)
-            => await session.QueryAsync<DatabaseObjectColumnMetadata>(this.SqlStatement, this.Parameters);
-
-        /// <summary>
-        /// Displays DB object main properties in Debug screen. (Only for development purposes).
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string DebuggerDisplay => $"SELECT [column data] FROM schema.columns WHERE OBJECT_NAME = '{_objectName}'";
     }
 
     /// <summary>

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Salix.Dapper.Cqrs.Abstractions;
 using Sample.AspNet5Api.Domain;
 
@@ -8,7 +6,7 @@ namespace Sample.AspNet5Api.Queries
     /// <summary>
     /// Retrieves a list of Artist Albums from Database.
     /// </summary>
-    public sealed class ArtistAlbumsSpQuery : MsSqlQueryBase<IEnumerable<ArtistAlbum>>, IQuery<IEnumerable<ArtistAlbum>>
+    public sealed class ArtistAlbumsSpQuery : MsSqlQueryMultipleBase<ArtistAlbum>
     {
         private readonly int _objectId;
 
@@ -27,12 +25,5 @@ namespace Sample.AspNet5Api.Queries
         /// Anonymous object of SqlQuery parameter(s).
         /// </summary>
         public override object Parameters => new { id = _objectId };
-
-        /// <summary>
-        /// Executes the query in <see cref="SqlStatement"/>.
-        /// </summary>
-        /// <param name="session">The database session object, injected by IoC.</param>
-        public async Task<IEnumerable<ArtistAlbum>> ExecuteAsync(IDatabaseSession session)
-            => await session.QueryAsync<ArtistAlbum>(this.SqlStatement, this.Parameters);
     }
 }

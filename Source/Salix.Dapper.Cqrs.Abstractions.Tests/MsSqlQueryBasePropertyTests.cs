@@ -1,7 +1,5 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
 namespace Salix.Dapper.Cqrs.Abstractions.Tests
@@ -54,16 +52,6 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
         {
             var testable = new SimpleQuery();
             testable.ToString().Should().Be("SELECT Id FROM Table");
-        }
-
-        [Fact]
-        public void SyncExecute_NotOverriden_Throws()
-        {
-            var testable = new SimpleQuery();
-            var dbSession = new Mock<IDatabaseSession>();
-            Action action = () => testable.Execute(dbSession.Object);
-
-            action.Should().ThrowExactly<NotImplementedException>().WithMessage("For MS SQL Server best use ExecuteAsync() or implement this method (overdrive) in IQuery class.");
         }
     }
 }

@@ -4,7 +4,7 @@ using Sample.AspNet5Api.Domain;
 
 namespace Sample.AspNet5Api.Commands
 {
-    public sealed class ArtistCreateCommand : MsSqlCommandBase<int>, ICommand<int>, ICommandValidator
+    public sealed class ArtistCreateCommand : MsSqlCommandBase<int>
     {
         private readonly Artist _dbObject;
 

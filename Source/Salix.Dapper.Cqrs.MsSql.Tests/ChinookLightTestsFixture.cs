@@ -44,7 +44,9 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
         {
             if (!this.CreateDatabase())
             {
+#pragma warning disable CA2201 // No need to create specific exception type here.
                 throw new Exception("Could not create test database on LocalDB (SQL Express).");
+#pragma warning restore CA2201
             }
             this.CreateDatabaseSchema();
             this.PopulateDatabaseData();

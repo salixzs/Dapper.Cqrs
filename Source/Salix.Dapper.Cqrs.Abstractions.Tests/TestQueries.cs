@@ -1,28 +1,24 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions.Tests
 {
 
     [ExcludeFromCodeCoverage]
-    public sealed class EmptyQuery : MsSqlQueryBase<int>, IQuery<int>
+    public sealed class EmptyQuery : MsSqlQuerySingleBase<int>
     {
-        public async Task<int> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<int>(this.SqlStatement);
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class SimpleQuery : MsSqlQueryBase<int>, IQuery<int>
+    public sealed class SimpleQuery : MsSqlQuerySingleBase<int>
     {
         public override string SqlStatement => "SELECT Id FROM Table";
 
         public override object Parameters => new { Id = 12 };
-
-        public async Task<int> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<int>(this.SqlStatement);
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamTypesQuery : MsSqlQueryBase<int>, IQuery<int>
+    public sealed class AllParamTypesQuery : MsSqlQuerySingleBase<int>
     {
         public override string SqlStatement => "SQL";
 
@@ -50,12 +46,10 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
                 P19 = new TimeSpan(21, 10, 59),
                 P20 = new Guid("73de0f47-a2c9-44e7-82f6-c8c928ec12a0"),
             };
-
-        public async Task<int> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<int>(this.SqlStatement);
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamNullTypesQuery : MsSqlQueryBase<int>, IQuery<int>
+    public sealed class AllParamNullTypesQuery : MsSqlQuerySingleBase<int>
     {
         public override string SqlStatement => "SQL";
 
@@ -83,18 +77,14 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
                 P19 = new TimeSpan(21, 10, 59),
                 P20 = new Guid("73de0f47-a2c9-44e7-82f6-c8c928ec12a0"),
             };
-
-        public async Task<int> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<int>(this.SqlStatement);
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamNullTypesNullQuery : MsSqlQueryBase<int>, IQuery<int>
+    public sealed class AllParamNullTypesNullQuery : MsSqlQuerySingleBase<int>
     {
         public override string SqlStatement => "SQL";
 
         public override object Parameters => new AllNullableTypes();
-
-        public async Task<int> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<int>(this.SqlStatement);
     }
 
     [ExcludeFromCodeCoverage]

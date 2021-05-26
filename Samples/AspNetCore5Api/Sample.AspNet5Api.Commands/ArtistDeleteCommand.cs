@@ -3,7 +3,7 @@ using Salix.Dapper.Cqrs.Abstractions;
 
 namespace Sample.AspNet5Api.Commands
 {
-    public sealed class ArtistDeleteCommand : MsSqlCommandBase, ICommand, ICommandValidator
+    public sealed class ArtistDeleteCommand : MsSqlCommandBase
     {
         private readonly int _dbId;
 
