@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Dapper;
 using Salix.Dapper.Cqrs.Abstractions;
@@ -12,6 +14,7 @@ namespace Salix.Dapper.Cqrs.MsSql
     /// Allows to assign SQL command parameters dynamically.
     /// </summary>
     /// <seealso cref="SqlMapper.IDynamicParameters" />
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class DynamicParameters : IDynamicParameters, SqlMapper.IDynamicParameters
     {
         private readonly Dictionary<string, DynamicParameterInfo> _parameters = new();
@@ -115,5 +118,9 @@ namespace Salix.Dapper.Cqrs.MsSql
         /// <param name="name">The name of parameter.</param>
         /// <returns>Cleared parameter.</returns>
         private static string CleanParameterName(string name) => !string.IsNullOrEmpty(name) && name[0] == '@' ? name.Substring(1) : name;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        [ExcludeFromCodeCoverage]
+        private string DebuggerDisplay => $"{_parameters.Count:D} parameters";
     }
 }

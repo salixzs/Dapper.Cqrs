@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -46,6 +47,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         public TimeSpan ExecutionTime => _databaseSession.ExecutionTime;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        [ExcludeFromCodeCoverage]
         private string DebuggerDisplay => "CQRS context on " + _databaseSession.ToString();
     }
 }

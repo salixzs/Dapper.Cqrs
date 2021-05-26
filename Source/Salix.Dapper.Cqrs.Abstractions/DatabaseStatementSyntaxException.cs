@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Salix.Dapper.Cqrs.Abstractions
 {
@@ -49,6 +50,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        [ExcludeFromCodeCoverage]
         private string DebuggerDisplay => this.Message;
     }
 }

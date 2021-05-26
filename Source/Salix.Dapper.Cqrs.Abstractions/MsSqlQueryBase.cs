@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -85,6 +86,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         }
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        [ExcludeFromCodeCoverage]
         private string DebuggerDisplay => this.SqlStatement.ToShortSql();
 
         public override string ToString() => this.SqlStatement.ToShortSql();

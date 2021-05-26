@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
 using Dapper;
@@ -151,6 +152,7 @@ namespace Salix.Dapper.Cqrs.MsSql
         public override string ToString() => $"MsSqlDB Session:{this.GetHashCode().ToString("D", CultureInfo.InvariantCulture)}, {_context}";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        [ExcludeFromCodeCoverage]
         private string DebuggerDisplay => this.ToString();
     }
 }

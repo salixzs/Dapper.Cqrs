@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Salix.Dapper.Cqrs.Abstractions
 {
     /// <summary>
@@ -43,6 +45,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         public override string ToString() => this.SqlStatement.ToShortSql();
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        [ExcludeFromCodeCoverage]
         private string DebuggerDisplay => this.SqlStatement.ToShortSql();
     }
 }
