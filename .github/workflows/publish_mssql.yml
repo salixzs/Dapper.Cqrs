@@ -1,4 +1,4 @@
-name: Publish Abstractions NuGet
+name: Publish MsSql NuGet
 
 on: workflow_dispatch
 
@@ -16,15 +16,15 @@ jobs:
         dotnet-version: 5.0.x
         
     - name: Install dependencies
-      run: dotnet restore Source/Salix.Dapper.Cqrs.Abstractions/Salix.Dapper.Cqrs.Abstractions.csproj
+      run: dotnet restore Source/Salix.Dapper.Cqrs.MsSql/Salix.Dapper.Cqrs.MsSql.csproj
       
     - name: Build
-      run: dotnet build Source/Salix.Dapper.Cqrs.Abstractions/Salix.Dapper.Cqrs.Abstractions.csproj --configuration Release --no-restore 
+      run: dotnet build Source/Salix.Dapper.Cqrs.MsSql/Salix.Dapper.Cqrs.MsSql.csproj --configuration Release --no-restore 
 
     - name: Publish NuGet package
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
-          PROJECT_FILE_PATH: Source/Salix.Dapper.Cqrs.Abstractions/Salix.Dapper.Cqrs.Abstractions.csproj
+          PROJECT_FILE_PATH: Source/Salix.Dapper.Cqrs.MsSql/Salix.Dapper.Cqrs.MsSql.csproj
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           NUGET_SOURCE: https://api.nuget.org
           INCLUDE_SYMBOLS: true

@@ -26,7 +26,7 @@ When packages are added and set-up (see "Installation" section below) - as appli
 * Inject `ICommandQueryContext` into your business logic class and use it to execute `IQuery` and `ICommand` classes against database engine. This is the only dependency required to work with database (Yeah, no more numerous repositories to depend upon!)
 
 ## IQuery
-Required to be able to read data from database. Create new class and implement its interface:
+Required to be able to read data from database. Create new class and implement its interface (used provided base class to partially do that):
 ```csharp
 public sealed class SampleQuery : MsSqlQueryMultipleBase<SampleData>
 {
