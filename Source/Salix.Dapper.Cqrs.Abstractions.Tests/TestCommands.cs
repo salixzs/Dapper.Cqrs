@@ -15,4 +15,12 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
 
         public override object Parameters => new { val = 12 };
     }
+
+    [ExcludeFromCodeCoverage]
+    public sealed class SimpleReturnCommand : MsSqlCommandBase<int>
+    {
+        public override string SqlStatement => "INSERT INTO Table (Name) VALUES (@Name)";
+
+        public override object Parameters => new { Name = ".Net" };
+    }
 }

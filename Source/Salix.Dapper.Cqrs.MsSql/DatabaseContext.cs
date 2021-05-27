@@ -88,21 +88,17 @@ namespace Salix.Dapper.Cqrs.MsSql
         /// </summary>
         private void OnInfoMessage(object sender, SqlInfoMessageEventArgs eventArgs)
         {
-            _logger.LogTrace("MS SQL InfoEvent fired for {SqlInfoEventSource} with message {SqlInfoEventMessage}", eventArgs.Source, eventArgs.Message);
+            _logger.LogDebug("Event: InfoEvent \"{SqlInfoEventMessage}\"", eventArgs.Message);
             if (eventArgs.Errors != null)
             {
                 foreach (SqlError err in eventArgs.Errors)
                 {
-                    _logger.LogTrace(
-                        "The {0} has received a severity {1}, state {2} error number {3} on line {4} of procedure {5} on server {6}:{7}",
-                            err.Source,
-                            err.Class,
-                            err.State,
-                            err.Number,
-                            err.LineNumber,
+                    _logger.LogDebug(
+                        "  - Received message \"{Msg}\" in procedure \"{Proc}\", line {Line} on server {Srv}",
+                            err.Message,
                             err.Procedure,
-                            err.Server,
-                            err.Message);
+                            err.LineNumber,
+                            err.Server);
                 }
             }
         }

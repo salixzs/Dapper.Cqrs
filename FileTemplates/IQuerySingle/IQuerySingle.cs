@@ -6,7 +6,7 @@ namespace $rootnamespace$
     /// <summary>
     /// Retrieves a database record by its ID.
     /// </summary>
-    public sealed class $safeitemname$ : MsSqlQueryBase<DbPoco>, IQuery<DbPoco>
+    public sealed class $safeitemname$ : MsSqlQuerySingleBase<DbPoco>
     {
         private readonly int _objectId;
 
@@ -17,6 +17,11 @@ namespace $rootnamespace$
         public $safeitemname$(int objectId) => _objectId = objectId;
 
         /// <summary>
+        /// Anonymous object of SqlQuery parameter(s).
+        /// </summary>
+        public override object Parameters => new { id = _objectId };
+
+        /// <summary>
         /// Actual SQL Statement to execute against MS SQL database.
         /// </summary>
         public override string SqlStatement => @"
@@ -25,17 +30,5 @@ SELECT Field1,
   FROM DbTable
  WHERE Id = @id
 ";
-
-        /// <summary>
-        /// Anonymous object of SqlQuery parameter(s).
-        /// </summary>
-        public override object Parameters => new { id = _objectId };
-
-        /// <summary>
-        /// Executes the query in <see cref="SqlStatement"/> asynchronously, using parameters in <see cref="Parameters"/>.
-        /// </summary>
-        /// <param name="session">The database session object, injected by IoC.</param>
-        public async Task<DbPoco> ExecuteAsync(IDatabaseSession session)
-            => await session.QueryFirstOrDefaultAsync<DbPoco>(this.SqlStatement, this.Parameters);
     }
 }

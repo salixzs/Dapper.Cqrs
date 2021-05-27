@@ -8,7 +8,7 @@ namespace Sample.AspNet5Api.Database.Tests.Preparation
     /// </summary>
     [ExcludeFromCodeCoverage]
 
-    public sealed class TestTableCreateCommand : MsSqlCommandBase, ICommand
+    public sealed class TestTableCreateCommand : MsSqlCommandBase
     {
         /// <summary>
         /// Actual SQL Statement to execute against MS SQL database.

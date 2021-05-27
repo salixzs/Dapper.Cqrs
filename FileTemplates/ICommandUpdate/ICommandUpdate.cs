@@ -6,7 +6,7 @@ namespace $rootnamespace$
     /// <summary>
     /// A Command to UPDATE object in database.
     /// </summary>
-    public sealed class $safeitemname$ : MsSqlCommandBase, ICommand, ICommandValidator
+    public sealed class $safeitemname$ : MsSqlCommandBase
     {
         private readonly DbPoco _dbObject;
 
@@ -18,6 +18,11 @@ namespace $rootnamespace$
             _dbObject = dbObject ?? throw new ArgumentNullException(nameof(dbObject), "No data passed for data update");
 
         /// <summary>
+        /// Anonymous object of SqlQuery parameter(s).
+        /// </summary>
+        public override object Parameters => _dbObject;
+
+        /// <summary>
         /// Actual SQL Statement to execute against MS SQL database.
         /// </summary>
         public override string SqlStatement => @"
@@ -26,10 +31,5 @@ UPDATE [DbTable]
        Field2 = @Property2
  WHERE Id = @Id
 ";
-
-        /// <summary>
-        /// Anonymous object of SqlQuery parameter(s).
-        /// </summary>
-        public override object Parameters => _dbObject;
     }
 }

@@ -6,7 +6,7 @@ namespace $rootnamespace$
     /// <summary>
     /// A Command to DELETE object in database.
     /// </summary>
-    public sealed class $safeitemname$ : MsSqlCommandBase, ICommand, ICommandValidator
+    public sealed class $safeitemname$ : MsSqlCommandBase
     {
         private readonly int _id;
 
@@ -25,16 +25,16 @@ namespace $rootnamespace$
         }
 
         /// <summary>
+        /// Anonymous object of SqlQuery parameter(s).
+        /// </summary>
+        public override object Parameters => new { id = _id };
+
+        /// <summary>
         /// Actual SQL Statement to execute against MS SQL database.
         /// </summary>
         public override string SqlStatement => @"
 DELETE FROM [DbTable]
       WHERE Id = @id
 ";
-
-        /// <summary>
-        /// Anonymous object of SqlQuery parameter(s).
-        /// </summary>
-        public override object Parameters => new { id = _id };
     }
 }

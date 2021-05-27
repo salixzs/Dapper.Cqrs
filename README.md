@@ -22,13 +22,13 @@ Packages are targeting .Net Standard 2.0
 
 When packages are added and set-up (see "Installation" section below) - as application developer you need to do two things (besides writing tests).
 
-* Create `IQuery` (Data retrieval) or `ICommand` (Data modification) implementation classes.
+* Create `IQuery` (Data retrieval) or `ICommand` (Data modification) implementation classes based on provided base classes.
 * Inject `ICommandQueryContext` into your business logic class and use it to execute `IQuery` and `ICommand` classes against database engine. This is the only dependency required to work with database (Yeah, no more numerous repositories to depend upon!)
 
 ## IQuery
 Required to be able to read data from database. Create new class and implement its interface:
 ```csharp
-public sealed class SampleQuery : MsSqlQueryBase<IEnumerable<SampleData>>, IQuery<IEnumerable<SampleData>>
+public sealed class SampleQuery : MsSqlQueryMultipleBase<SampleData>
 {
     // hold parameters for query passed into class
     private readonly int _id;
@@ -41,18 +41,15 @@ public sealed class SampleQuery : MsSqlQueryBase<IEnumerable<SampleData>>, IQuer
     
     // Here is actual SQL statement for data query
     public override string SqlStatement => "SELECT Data FROM Table WHERE FkId = @RefId";
-    
-    // This is to specify internal method to use for query (One or many records?)
-    public async Task<IEnumerable<SampleData>> ExecuteAsync(IDatabaseSession session)
-            => await session.QueryAsync<SampleData>(this.SqlStatement, this.Parameters);
 }
 ```
-Here base class `MsSqlQueryBase` is class, implementing most of `IQuery` interface demands, but with MsSQL specifics, so developers does not have to for each `IQuery` implementation.
+Here base class `MsSqlQueryMultipleBase<T>` is class, implementing most of `IQuery` interface demands to retrieve multiple records (`IEnumerable<T>`) from database.
+Base class `MsSqlQuerySingleBase<T>` does the same, but to retrieve only one record mapped to database poco object `T`.
 
 ## ICommand
-Similar to Query, but dedicated to data modification statements.
+Similar to Query above, but dedicated to data modification statements.
 ```csharp
-public sealed class SampleCreateCommand : MsSqlCommandBase<int>, ICommand<int>, ICommandValidator
+public sealed class SampleCreateCommand : MsSqlCommandBase<int>
 {
     // Holds passed in object to be created as record in DB.
     private readonly SampleData _sampleObject;
@@ -72,8 +69,6 @@ public sealed class SampleCreateCommand : MsSqlCommandBase<int>, ICommand<int>, 
 
     // Prepare object for Dapper to pass as parameters for SQL statement
     public override object Parameters => _sampleObject;
-    
-    // Execute command itself is implemented in base class.
 }
 ```
 

@@ -134,6 +134,63 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
                     _messageSink.OnMessage(new DiagnosticMessage("Adding FK Index To Album.Artist."));
                     command.ExecuteNonQuery();
                 }
+
+                string checkSQLFunction = @"
+CREATE FUNCTION [dbo].[CheckSql]
+(
+    @tsql VARCHAR(4000),
+    @parameterInfo VARCHAR(4000) NULL
+)
+RETURNS VARCHAR(1000)
+AS
+BEGIN
+  DECLARE @Result VARCHAR (1000)
+
+  IF EXISTS (
+      SELECT 1
+        FROM [sys].[dm_exec_describe_first_result_set] (@tsql, @parameterInfo, 0)
+       WHERE [error_message] IS NOT NULL
+         AND [error_number] IS NOT NULL
+         AND [error_severity] IS NOT NULL
+         AND [error_state] IS NOT NULL
+         AND [error_type] IS NOT NULL
+         AND [error_type_desc] IS NOT NULL
+      )
+    BEGIN
+      SELECT @Result = [error_message]
+        FROM [sys].[dm_exec_describe_first_result_set] (@tsql, @parameterInfo, 0)
+       WHERE column_ordinal = 0
+    END
+  ELSE BEGIN
+    SET @Result = 'OK'
+  END
+
+  RETURN (@Result)
+END
+";
+
+                using (var command = new SqlCommand(checkSQLFunction, connection))
+                {
+                    _messageSink.OnMessage(new DiagnosticMessage("Adding CheckSQL Function."));
+                    command.ExecuteNonQuery();
+                }
+
+                string raiseEventProc = @"
+CREATE PROCEDURE [dbo].[InfoEventEmitter]
+AS
+BEGIN
+    SET NOCOUNT ON;
+    RAISERROR('Information text', 3, 3) WITH NOWAIT
+    -- RAISERROR('Light error', 11, 14) WITH NOWAIT -- Above 10 are actual errors, which is throwing exceptions in SQL Client
+    PRINT 'This is PRINT event';
+END
+";
+                using (var command = new SqlCommand(raiseEventProc, connection))
+                {
+                    _messageSink.OnMessage(new DiagnosticMessage("Adding RaiseEvent Procedure."));
+                    command.ExecuteNonQuery();
+                }
+
             }
         }
 

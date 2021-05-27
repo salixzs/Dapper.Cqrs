@@ -5,20 +5,31 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
 {
 
     [ExcludeFromCodeCoverage]
-    public sealed class EmptyQuery : MsSqlQuerySingleBase<int>
+    public sealed class EmptySingleQuery : MsSqlQuerySingleBase<int>
+    {
+    }
+    public sealed class EmptyMultipleQuery : MsSqlQueryMultipleBase<int>
     {
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class SimpleQuery : MsSqlQuerySingleBase<int>
+    public sealed class SimpleSingleQuery : MsSqlQuerySingleBase<int>
     {
-        public override string SqlStatement => "SELECT Id FROM Table";
+        public override string SqlStatement => "SELECT Id FROM Table WHERE Id = @Id";
 
         public override object Parameters => new { Id = 12 };
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamTypesQuery : MsSqlQuerySingleBase<int>
+    public sealed class SimpleMultipleQuery : MsSqlQueryMultipleBase<int>
+    {
+        public override string SqlStatement => "SELECT Id FROM Table WHERE TypeName = @Name";
+
+        public override object Parameters => new { Name = ".Net" };
+    }
+
+    [ExcludeFromCodeCoverage]
+    public sealed class AllParamTypesSingleQuery : MsSqlQuerySingleBase<int>
     {
         public override string SqlStatement => "SQL";
 
@@ -49,7 +60,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamNullTypesQuery : MsSqlQuerySingleBase<int>
+    public sealed class AllParamNullTypesSingleQuery : MsSqlQuerySingleBase<int>
     {
         public override string SqlStatement => "SQL";
 
@@ -80,7 +91,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
     }
 
     [ExcludeFromCodeCoverage]
-    public sealed class AllParamNullTypesNullQuery : MsSqlQuerySingleBase<int>
+    public sealed class AllParamNullTypesNullSingleQuery : MsSqlQuerySingleBase<int>
     {
         public override string SqlStatement => "SQL";
 

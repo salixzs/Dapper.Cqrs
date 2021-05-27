@@ -766,5 +766,15 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
             _log.LoggedMessages[8].Should().Contain("Attempting to execute SQL statement");
             _log.LoggedMessages[9].Should().Contain("SQL statement executed");
         }
+
+        [Fact]
+        public void InfoEvent_Procedure_Logged()
+        {
+            var artist = _sut.ExecuteSql(transaction => _sut.Connection.Execute("EXEC [dbo].[InfoEventEmitter]", null, transaction));
+            _log.LoggedMessages.Count.Should().Be(10);
+            _log.LoggedMessages[6].Should().Contain("Event: InfoEvent");
+            _log.LoggedMessages[7].Should().Contain("Received message \"Information text\"");
+            _log.LoggedMessages[8].Should().Contain("Received message \"This is PRINT event\"");
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace Sample.AspNet5Api.Commands
         public ArtistCreateCommand(Artist dbObject) =>
             _dbObject = dbObject ?? throw new ArgumentNullException(nameof(dbObject), "No data passed for Artist create");
 
+        public override object Parameters => _dbObject;
+
         // Two statements - first inserts data, second selects (returns) last inserted record autoincrement value from DB.
         public override string SqlStatement => @"
 INSERT INTO Artist (
@@ -18,7 +20,5 @@ INSERT INTO Artist (
 ) VALUES (
     @Name
 );SELECT CAST(SCOPE_IDENTITY() as int)";
-
-        public override object Parameters => _dbObject;
     }
 }

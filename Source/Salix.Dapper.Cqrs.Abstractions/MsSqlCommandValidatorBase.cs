@@ -24,6 +24,12 @@ namespace Salix.Dapper.Cqrs.Abstractions
         public virtual object Parameters => null;
 
         /// <summary>
+        /// Use during Code Debugging (by developer) to get statements, which can be copy-pasted into SQL Management Studio for checking against database.
+        /// </summary>
+        public string RealSqlStatement => $@"{MsSqlValidationHelpers.GetParameterStatements(this.Parameters)}
+{this.SqlStatement}";
+
+        /// <summary>
         /// Validates the SQL statement against database engine for its syntax and structural correctness.
         /// Validates only statement in <see cref="SqlStatement"/>. If derived class contains more than this one
         /// SQL statement - override this implementation and add all statement validations to it.

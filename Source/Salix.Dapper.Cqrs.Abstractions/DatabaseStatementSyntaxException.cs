@@ -14,6 +14,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// <summary>
         /// SQL Statement Syntax exception for magic string statement validations.
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public DatabaseStatementSyntaxException()
         {
         }

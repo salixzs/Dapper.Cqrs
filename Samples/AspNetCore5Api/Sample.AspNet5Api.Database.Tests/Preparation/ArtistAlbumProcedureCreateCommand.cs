@@ -8,7 +8,7 @@ namespace Sample.AspNet5Api.Database.Tests.Preparation
     /// </summary>
     [ExcludeFromCodeCoverage]
 
-    public sealed class ArtistAlbumProcedureCreateCommand : MsSqlCommandBase, ICommand
+    public sealed class ArtistAlbumProcedureCreateCommand : MsSqlCommandBase
     {
         /// <summary>
         /// Actual SQL Statement to execute against MS SQL database.
