@@ -33,7 +33,7 @@ Available new file templates takes care of creating necessary boilerplate code.
     <PackageReleaseNotes>
 Initial release providing Abstractions to use in Dapper.CQRS package suite.
     </PackageReleaseNotes>
-    <Version>1.0.0-rc1</Version>
+    <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>

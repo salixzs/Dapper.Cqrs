@@ -6,15 +6,17 @@ Libraries (NuGet packages) to help employ [CQRS](https://martinfowler.com/bliki/
 
 Package uses [Dapper](https://stackexchange.github.io/Dapper/) - a simple object mapper for .Net built by StackOverflow developers and is one of the most performing ORMs in .Net landscape (if not fastest).
 
-Project was influenced by another repository - [UPNXT-Dapper-cqrs](https://github.com/upnxt/upnxt-dapper-cqrs), but built into more utilizable way with practical developer usage ease and looking for ways to be able to validate "magic string queries" against database to avoid runtime fails due to database structural changes not followed in code.
+Project was influenced by another repository - [UPNXT-Dapper-cqrs](https://github.com/upnxt/upnxt-dapper-cqrs). Solution is separating concerns into Abstractions (no dependencies), Database-specific and Testing helpers to be used in more architecturally utilizable way with [practical developer usage ease](https://github.com/salixzs/Dapper.Cqrs/wiki/Productivity) and ability to [validate "magic string queries"](https://github.com/salixzs/Dapper.Cqrs/wiki/QueryTesting) against database to avoid runtime fails due to database structural changes not followed in code.
+
+Repo containing actual usage [sample project](https://github.com/salixzs/Dapper.Cqrs/wiki/AspNet5ApiSample) and Visual Studio [item templates](https://github.com/salixzs/Dapper.Cqrs/wiki/Productivity#provided-templates) for most of development needs.
 
 Packages are targeting .Net Standard 2.0
 
 | Package | NuGet | Build |  Code Coverage | Downloads |
 | ------- | ----- | ----- | -------------- | --------- |
-| Dapper.CQRS.Abstractions | N/A | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/4?style=plastic&logo=azuredevops&logoColor=blue) | [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/SmartDance/GitHubProjects/4?color=green&logo=azuredevops&logoColor=blue&style=plastic)](https://dev.azure.com/SmartDance/GitHubProjects/_build?definitionId=4) | N/A |
-| Dapper.CQRS.MsSql | N/A | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/5?style=plastic&logo=azuredevops&logoColor=blue) | [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/SmartDance/GitHubProjects/5?color=green&logo=azuredevops&logoColor=blue&style=plastic)](https://dev.azure.com/SmartDance/GitHubProjects/_build?definitionId=5) | N/A |
-| Dapper.CQRS.Testing.MsSql.xUnit | N/A | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/6?style=plastic&logo=azuredevops&logoColor=blue) | N/A | N/A |
+| Dapper.CQRS.Abstractions | [![Nuget](https://img.shields.io/nuget/v/Salix.Dapper.Cqrs.Abstractions?logo=nuget&logoColor=lightblue&style=plastic)](https://www.nuget.org/packages/Salix.Dapper.Cqrs.Abstractions) | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/4?style=plastic&logo=azuredevops&logoColor=blue) | [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/SmartDance/GitHubProjects/4?color=green&logo=azuredevops&logoColor=blue&style=plastic)](https://dev.azure.com/SmartDance/GitHubProjects/_build?definitionId=4) | ![Nuget](https://img.shields.io/nuget/dt/Salix.Dapper.Cqrs.Abstractions?logo=nuget&logoColor=lightblue&style=plastic) |
+| Dapper.CQRS.MsSql | [![Nuget](https://img.shields.io/nuget/v/Salix.Dapper.Cqrs.MsSql?logo=nuget&logoColor=lightblue&style=plastic)](https://www.nuget.org/packages/Salix.Dapper.Cqrs.MsSql) | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/5?style=plastic&logo=azuredevops&logoColor=blue) | [![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/SmartDance/GitHubProjects/5?color=green&logo=azuredevops&logoColor=blue&style=plastic)](https://dev.azure.com/SmartDance/GitHubProjects/_build?definitionId=5) | ![Nuget](https://img.shields.io/nuget/dt/Salix.Dapper.Cqrs.MsSql?logo=nuget&logoColor=lightblue&style=plastic) |
+| Dapper.CQRS.Testing.MsSql.xUnit | [![Nuget](https://img.shields.io/nuget/v/Salix.Dapper.Cqrs.MsSql.Testing.XUnit?logo=nuget&logoColor=lightblue&style=plastic)](https://www.nuget.org/packages/Salix.Dapper.Cqrs.MsSql.Testing.XUnit) | ![Azure DevOps Build ](https://img.shields.io/azure-devops/build/SmartDance/45bc2cc0-bce1-4cac-a1d8-ba3f243940a6/6?style=plastic&logo=azuredevops&logoColor=blue) | N/A | ![Nuget](https://img.shields.io/nuget/dt/Salix.Dapper.Cqrs.MsSql.Testing.XUnit?logo=nuget&logoColor=lightblue&style=plastic) |
 
 > Detailed documentation is in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
 
@@ -96,6 +98,13 @@ public async Task<IEnumerable<SampleData>> GetAll(int refId) =>
 public async Task<int> Create(SampleData dataObject) => 
     await _db.ExecuteAsync(new SampleCreateCommand(dataObject));
 ```
+
+## Testability
+As package uses interfaces for everything - it is easy to be mocked for isolation in pure unit-testing routines.
+
+`Testing` package includes prepared base classes and helpers to automatically find all Queries and Commands in your project and validate SQL statements in those against database for syntax validity. There are helpers for other testing needs, like compare DTO with database object and write/read tests.
+
+See Sample project testing project for reference to such tests.
 
 # Installation
 For .Net projects which needs access to database, reference database engine specific package.
