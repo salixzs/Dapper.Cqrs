@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="ConfigurationValidation" Version="1.0.0" />
-    <PackageReference Include="Salix.AspNetCore.Utilities" Version="1.1.0" />
+    <PackageReference Include="Salix.AspNetCore.Utilities" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Salix.AspNetCore.Utilities;
 using Salix.Dapper.Cqrs.Abstractions;
 using Salix.Dapper.Cqrs.MsSql;
 using Sample.AspNet5Api.Logic;
@@ -27,6 +28,7 @@ namespace Sample.AspNet5Api
             // Logic class registration
             services.AddScoped<IArtistsLogic, ArtistsLogic>();
             services.AddScoped<IAlbumsLogic, AlbumsLogic>();
+            services.AddTransient<IConfigurationValuesLoader, ConfigurationValuesLoader>();
         }
     }
 }

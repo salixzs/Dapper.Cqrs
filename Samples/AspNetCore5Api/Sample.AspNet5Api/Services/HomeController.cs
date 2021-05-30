@@ -19,6 +19,7 @@ namespace Sample.AspNet5Api.Services
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly HealthCheckService _healthChecks;
+        private readonly IConfigurationValuesLoader _configLoader;
         private const string HealthTestEndpoint = "/api/healthtest";
 
         /// <summary>
@@ -28,10 +29,11 @@ namespace Sample.AspNet5Api.Services
         /// <param name="logic">Demonstration business logic (throwing errors).</param>
         /// <param name="healthChecks">ASP.Net built in health checking services. DO NOT INJECT this, if you do not have Health checks configured in API.</param>
         /// <param name="logger">Logging object.</param>
-        public HomeController(IWebHostEnvironment hostingEnvironment, HealthCheckService healthChecks)
+        public HomeController(IWebHostEnvironment hostingEnvironment, HealthCheckService healthChecks, IConfigurationValuesLoader configLoader)
         {
             _hostingEnvironment = hostingEnvironment;
             _healthChecks = healthChecks;
+            _configLoader = configLoader;
         }
 
         /// <summary>
@@ -40,30 +42,33 @@ namespace Sample.AspNet5Api.Services
         [HttpGet("/")]
         public ContentResult Index()
         {
-            var apiAssembly = Assembly.GetAssembly(typeof(Startup));
-            IndexPageValues buildData = new()
-            {
-                ApiName = "Sample API",
-                Description = "Database access through Dapper with CQRS.",
-                HostingEnvironment = _hostingEnvironment.EnvironmentName,
-                Version = IndexPage.ExtractVersionFromAssembly(apiAssembly, 2), // Takes version from assembly - just first two numbers as specified
-                BuiltTime = IndexPage.ExtractBuildTimeFromAssembly(apiAssembly), // For this to work need non-deterministic AssemblyInfo.cs version set.
-                HealthPageAddress = HealthTestEndpoint, // See operation URL set on action method below!
-                SwaggerPageAddress = "/swagger/index.html"
-            };
+            Dictionary<string, string> configurationItems =
+                _configLoader.GetConfigurationValues(new HashSet<string>
+                {
+                    "Logging", "Database"
+                });
 
-            // "Hacking" to understand what mode API is getting compiled.
+            var apiAssembly = Assembly.GetAssembly(typeof(Startup));
+            IndexPage indexPage = new IndexPage("Sample API")
+                .SetDescription("Database access through Dapper with CQRS.")
+                .SetHostingEnvironment(_hostingEnvironment.EnvironmentName)
+                .SetVersionFromAssembly(apiAssembly, 2)
+                .SetBuildTimeFromAssembly(apiAssembly)
+                .SetHealthPageUrl(HealthTestEndpoint)
+                .SetSwaggerUrl("/swagger/index.html")
+                .SetConfigurationValues(configurationItems);
+
 #if DEBUG
-            buildData.BuildMode = "#DEBUG (Should not be in production!)";
+            indexPage.SetBuildMode("#DEBUG (Should not be in production!)");
 #else
-            buildData.BuildMode = "Release";
+            indexPage.SetBuildMode("Release");
 #endif
 
             return new ContentResult
             {
                 ContentType = "text/html",
                 StatusCode = (int)HttpStatusCode.OK,
-                Content = IndexPage.GetContents(buildData),
+                Content = indexPage.GetContents(),
             };
         }
 
