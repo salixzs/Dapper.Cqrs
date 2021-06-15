@@ -24,6 +24,12 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
         private ILogger<DatabaseContext> _sqlContextLogger;
         private ILogger<SqlDatabaseSession> _sqlSessionLogger;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether database is prepared for test run.
+        /// Should be set in Collection test class after preparation is done.
+        /// </summary>
+        internal bool IsDatabasePrepared { get; set; }
+
         public string SqlConnection { get; set; }
 
         /// <summary>
@@ -58,12 +64,6 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
         /// </summary>
         public void InstantiateDatabaseObjects(ITestOutputHelper output)
         {
-            // Entry by next tests after first - reuse everything already set
-            if (_sqlContext != null && _sqlContext.Connection.State == ConnectionState.Open)
-            {
-                return;
-            }
-
             if (_messageSink == null)
             {
                 _sqlContextLogger = new Mock<ILogger<DatabaseContext>>().Object;
@@ -73,6 +73,12 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
             {
                 _sqlContextLogger = new XUnitLogger<DatabaseContext>(_messageSink).SetOutputHelper(output);
                 _sqlSessionLogger = new XUnitLogger<SqlDatabaseSession>(_messageSink).SetOutputHelper(output);
+            }
+
+            // Entry by next tests after first - reuse everything already set
+            if (_sqlContext != null && _sqlContext.Connection.State == ConnectionState.Open)
+            {
+                return;
             }
 
             _sqlContext = new DatabaseContext(this.SqlConnection, _sqlContextLogger);
