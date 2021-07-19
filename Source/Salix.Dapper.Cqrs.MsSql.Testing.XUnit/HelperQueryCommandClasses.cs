@@ -91,15 +91,24 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
 
                 parameters[index] = parameterInfo[index].ParameterType.Name switch
                 {
-                    "DateTime" or "DateTimeOffset" => DateTime.Now,
+                    "DateTime" => DateTime.Now,
+                    "DateTimeOffset" => DateTimeOffset.Now,
                     "TimeSpan" => new TimeSpan(0, 0, 9, 59),
                     "Guid" => Guid.NewGuid(),
-                    "Byte" or "SByte" or "Int32" or "Int16" or "Int64" or "UInt32" or "UInt16" or "UInt64" => 1,
+                    "Byte" => (byte)1,
+                    "SByte" => (sbyte)1,
+                    "Int32" => 1,
+                    "Int16" => (short)1,
+                    "Int64" => (long)1,
+                    "UInt32" => (uint)1,
+                    "UInt16" => (ushort)1,
+                    "UInt64" => (ulong)1,
                     "Boolean" => false,
                     "Char" => 'c',
                     "Decimal" => 1M,
                     "Double" => 1D,
-                    "float" or "Single" => 1F,
+                    "float" => 1F,
+                    "Single" => (float)1F,
                     _ => null,
                 };
             }
