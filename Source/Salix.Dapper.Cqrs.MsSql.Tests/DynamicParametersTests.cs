@@ -218,12 +218,12 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
             DateTime bd = DateTime.Now;
             testable.Add("Birthday", SqlDbType.DateTime, bd);
             testable.AddParameters(new SqlCommand()); // Faking Command execution
-            ((DateTime)testable.ParameterValues["Birthday"]).Should().BeCloseTo(bd);
+            ((DateTime)testable.ParameterValues["Birthday"]).Should().BeCloseTo(bd, TimeSpan.FromSeconds(2));
             testable.SqlDbTypes["Birthday"].Should().Be(SqlDbType.DateTime);
             testable.ParameterDirections["Birthday"].Should().Be(ParameterDirection.Input);
             var internalTestable = (SqlParameter)testable.ParameterDbDataObject["Birthday"];
             internalTestable.ParameterName.Should().Be("Birthday");
-            ((DateTime)internalTestable.Value).Should().BeCloseTo(bd);
+            ((DateTime)internalTestable.Value).Should().BeCloseTo(bd, TimeSpan.FromSeconds(2));
             internalTestable.DbType.Should().Be(DbType.DateTime);
             internalTestable.SqlDbType.Should().Be(SqlDbType.DateTime);
             internalTestable.Direction.Should().Be(ParameterDirection.Input);
