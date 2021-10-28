@@ -2,6 +2,9 @@ using System;
 
 namespace Salix.Dapper.Cqrs.Abstractions
 {
+    /// <summary>
+    /// Extensions to make a better logging information statements.
+    /// </summary>
     public static class LoggerExtensions
     {
         /// <summary>

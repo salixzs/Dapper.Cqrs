@@ -42,7 +42,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
         [Fact]
         public void Constructor_ConnectionString_Stored()
         {
-            var connStr = ChinookLightTestsFixture.GetInternalConnectionString(_sut);
+            var connStr = _sut.ConnectionString;
             connStr.Should().NotBeNullOrEmpty();
             connStr.Should().Be(ChinookLightTestsFixture.SqlConnectionString);
         }

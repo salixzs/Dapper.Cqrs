@@ -109,7 +109,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes the specified SQL statement via Dapper through context.
         /// Example in Command object:
         /// <code>
-        /// var result = await session.ExecuteAsync<int>("UPDATE SomeTable SET field = @val", new { val = variable });
+        /// var result = await session.ExecuteAsync{int}("UPDATE SomeTable SET field = @val", new { val = variable });
         /// </code>
         /// </summary>
         /// <typeparam name="T">Type of return value.</typeparam>

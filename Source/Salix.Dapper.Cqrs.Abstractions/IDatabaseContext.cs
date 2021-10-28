@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
 {
+    /// <summary>
+    /// Creates a specific database engine Context to use for CQRS functionality to access database through Dapper ORM.
+    /// Used in <see cref="IDatabaseSession" /> implementation methods to do lowest level
+    /// Dapper executions against database, using DB connection provided here.
+    /// </summary>
+    /// <seealso cref="IDisposable" />
     public interface IDatabaseContext : IDisposable
     {
         /// <summary>
@@ -15,6 +21,11 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Do not dispose it separately, use entire context dispose when Unit of Work completes.
         /// </summary>
         DbConnection Connection { get; }
+
+        /// <summary>
+        /// Exposes database connection string, which was set during object create.
+        /// </summary>
+        string ConnectionString { get; }
 
         /// <summary>
         /// Stores execution time of last statement, passed to <see cref="ExecuteSql{T}(Func{IDbTransaction,T})"/> method.

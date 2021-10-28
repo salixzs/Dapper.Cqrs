@@ -24,7 +24,6 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// <param name="sqlQuery">The query class object, implementing IQuery interface.</param>
         Task<T> QueryAsync<T>(IQuery<T> sqlQuery);
 
-
         /// <summary>
         /// Executes Command object (in "Cqrs") onto SQL database, usually modifying data there.
         /// Example:

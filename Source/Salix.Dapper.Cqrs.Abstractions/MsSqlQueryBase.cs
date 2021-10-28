@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -17,10 +16,14 @@ namespace Salix.Dapper.Cqrs.Abstractions
     {
         /// <summary>
         /// Actual executable method of database query which returns data from database.
-        /// NOTE: Abstract class method throws <see cref="NotImplementedException"/>. Override in implementing class if needed.
         /// </summary>
         /// <param name="session">The database connection session.</param>
         public virtual T Execute(IDatabaseSession session) => session.QueryFirstOrDefault<T>(this.SqlStatement, this.Parameters);
+
+        /// <summary>
+        /// Actual executable method of database query which returns data from database.
+        /// </summary>
+        /// <param name="session">The database connection session.</param>
         public virtual async Task<T> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<T>(this.SqlStatement, this.Parameters);
     }
 
@@ -35,10 +38,14 @@ namespace Salix.Dapper.Cqrs.Abstractions
     {
         /// <summary>
         /// Actual executable method of database query which returns data from database.
-        /// NOTE: Abstract class method throws <see cref="NotImplementedException"/>. Override in implementing class if needed.
         /// </summary>
         /// <param name="session">The database connection session.</param>
         public virtual IEnumerable<T> Execute(IDatabaseSession session) => session.Query<T>(this.SqlStatement, this.Parameters);
+
+        /// <summary>
+        /// Actual executable method of database query which returns data from database.
+        /// </summary>
+        /// <param name="session">The database connection session.</param>
         public virtual async Task<IEnumerable<T>> ExecuteAsync(IDatabaseSession session) => await session.QueryAsync<T>(this.SqlStatement, this.Parameters);
     }
 
@@ -89,6 +96,9 @@ namespace Salix.Dapper.Cqrs.Abstractions
         [ExcludeFromCodeCoverage]
         private string DebuggerDisplay => this.SqlStatement.ToShortSql();
 
+        /// <summary>
+        /// Exposes a query as shortened version of internal SQL statement.
+        /// </summary>
         public override string ToString() => this.SqlStatement.ToShortSql();
     }
 }

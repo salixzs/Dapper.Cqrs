@@ -15,7 +15,6 @@ namespace Salix.Dapper.Cqrs.MsSql
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public sealed class DatabaseContext : IMsSqlContext
     {
-        private readonly string _connectionString;
         private readonly ILogger<DatabaseContext> _logger;
         private SqlConnection _connection;
 
@@ -31,6 +30,9 @@ namespace Salix.Dapper.Cqrs.MsSql
         }
 
         /// <inheritdoc/>
+        public string ConnectionString { get; }
+
+        /// <inheritdoc/>
         DbConnection IDatabaseContext.Connection => this.Connection;
 
         /// <summary>
@@ -40,7 +42,7 @@ namespace Salix.Dapper.Cqrs.MsSql
         {
             if (_connection == null)
             {
-                _connection = new SqlConnection(_connectionString);
+                _connection = new SqlConnection(this.ConnectionString);
                 _logger.LogTrace("Created new MS SQL connection with Hash: {Hash} to {Server}:{Database}", _connection.GetHashCode(), _connection.DataSource, _connection.Database);
                 if (_logger.IsEnabled(LogLevel.Trace))
                 {
@@ -60,7 +62,7 @@ namespace Salix.Dapper.Cqrs.MsSql
                         _logger.LogWarning("It seems that SqlConnection was closed without handling transaction properly (Connection direct use is not healthy).");
                     }
 
-                    _connection.ConnectionString = _connectionString;
+                    _connection.ConnectionString = this.ConnectionString;
                 }
 
                 _logger.LogTrace("Opening SQL connection (Hash: {Hash}).", _connection.GetHashCode());
@@ -156,7 +158,7 @@ namespace Salix.Dapper.Cqrs.MsSql
                 throw new ArgumentNullException(nameof(connectionString), "SQL Database Context object did not receive SQL Connection string during its construction.");
             }
 
-            _connectionString = connectionString;
+            this.ConnectionString = connectionString;
             _logger = logger;
         }
 

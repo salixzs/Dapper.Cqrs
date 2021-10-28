@@ -2,10 +2,13 @@ using System.Data;
 
 namespace Salix.Dapper.Cqrs.Abstractions
 {
+    /// <summary>
+    /// Allows to assign SQL command parameters dynamically.
+    /// </summary>
     public interface IDynamicParameters
     {
         /// <summary>
-        /// Add a parameter to dynamic parameter list for MS SQL database functionalities.
+        /// Add a parameter to dynamic parameter list for SQL database functionality.
         /// </summary>
         /// <param name="name">Name of parameter.</param>
         /// <param name="fieldType">Database type of parameter.</param>

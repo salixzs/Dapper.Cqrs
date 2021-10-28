@@ -7,6 +7,8 @@
     <RootNamespace>Salix.Dapper.Cqrs.MsSql</RootNamespace>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <!-- === NuGet package description properties ===-->
@@ -31,11 +33,11 @@ Available new file templates takes care of creating necessary boilerplate code (
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
     <PackageReleaseNotes>
-Initial release providing ability to use Dapper in CQRS manner for MS SQL database engine.
+Added ConnectionString property to DbContext. Updated dependencies. Added documentation comments generation.
     </PackageReleaseNotes>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,8 +48,8 @@ Initial release providing ability to use Dapper in CQRS manner for MS SQL databa
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.90" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.18" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.20" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
   <!-- === Own references ===-->

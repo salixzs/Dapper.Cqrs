@@ -17,7 +17,10 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
         /// Creates Dummy parameter array for class instantiation through reflection.
         /// </summary>
         /// <param name="classType">Type of IQuery/ICommand (Validatable) class to be instantiated.</param>
-        /// <returns>Dummy general parameter array for First() class constructor</returns>
+        /// <param name="domainObjectFactory">The domain object factory.</param>
+        /// <returns>
+        /// Dummy general parameter array for First() class constructor
+        /// </returns>
         public static object[] CreateDummyParametersForType(Type classType, ITestObjectFactory domainObjectFactory = null)
         {
             // To supply specific parameters - add this method to your query class:
