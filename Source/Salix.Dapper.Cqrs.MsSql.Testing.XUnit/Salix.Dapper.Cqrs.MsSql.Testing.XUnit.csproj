@@ -32,14 +32,14 @@ Available new file templates takes care of creating necessary boilerplate code.
     <PackageProjectUrl>https://github.com/salixzs/Dapper.Cqrs/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/salixzs/Dapper.Cqrs</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <PackageReadmeFile>../../nuget_readme.md</PackageReadmeFile>
+    <PackageReadmeFile>nuget_readme.md</PackageReadmeFile>
 
     <PackageReleaseNotes>
-Updates to dependencies. Documentation generation.
+Updates to dependencies.
     </PackageReleaseNotes>
-    <Version>1.0.3</Version>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
+    <Version>1.0.4</Version>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <FileVersion>1.0.4.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,7 +49,7 @@ Updates to dependencies. Documentation generation.
 
   <!-- === 3rd party references ===-->
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.20" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.22" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit.core" Version="2.4.1" />
   </ItemGroup>
