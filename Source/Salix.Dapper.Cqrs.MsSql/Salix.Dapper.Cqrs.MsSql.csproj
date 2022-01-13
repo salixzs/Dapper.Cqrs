@@ -31,24 +31,26 @@ Available new file templates takes care of creating necessary boilerplate code (
     <PackageProjectUrl>https://github.com/salixzs/Dapper.Cqrs/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/salixzs/Dapper.Cqrs</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageReadmeFile>../../nuget_readme.md</PackageReadmeFile>
 
     <PackageReleaseNotes>
-Added ConnectionString property to DbContext. Updated dependencies. Added documentation comments generation.
+Added CancellationToken parameter (defaults to CancellationToken.None) for async operations.
     </PackageReleaseNotes>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.2.0</Version>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="../../DapperCQRS.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../nuget_readme.md" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
   <!-- === 3rd party references ===-->
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.90" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.20" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.22" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 

@@ -2,13 +2,15 @@
 
 <img align="left" src="DapperCQRS.png">
 
-Libraries (NuGet packages) to help employ [CQRS](https://martinfowler.com/bliki/CQRS.html) (Command Query Responsibility Segregation) pattern to database access in various .Net projects. Approach unifies database data retrieval under CQRS handler, which is the only dependency for business logic (getting rid of multiple repository injections).
+Packages provides ability to use [CQRS (Command Query Responsibility Segregation)](https://martinfowler.com/bliki/CQRS.html) pattern for database data reading (Queries) or its modification (Commands). It includes ambient connection and transaction handling, so after easy set-up, developers are only required to write Query and Command classes which usually are database SQL statements, wrapped in separate classes, with a little bit of parameter handling (business as usual).
 
 Package uses [Dapper](https://stackexchange.github.io/Dapper/) - a simple object mapper for .Net built by StackOverflow developers and is one of the most performing ORMs in .Net landscape (if not fastest).
 
 Project was influenced by another repository - [UPNXT-Dapper-cqrs](https://github.com/upnxt/upnxt-dapper-cqrs). Solution is separating concerns into Abstractions (no dependencies), Database-specific and Testing helpers to be used in more architecturally utilizable way with [practical developer usage ease](https://github.com/salixzs/Dapper.Cqrs/wiki/Productivity) and ability to [validate "magic string queries"](https://github.com/salixzs/Dapper.Cqrs/wiki/QueryTesting) against database to avoid runtime fails due to database structural changes not followed in code.
 
 Repo containing actual usage [sample project](https://github.com/salixzs/Dapper.Cqrs/wiki/AspNet5ApiSample) and Visual Studio [item templates](https://github.com/salixzs/Dapper.Cqrs/wiki/Productivity#provided-templates) for most of development needs.
+
+Approach is succesfully used in huge project (>3M code lines) and database of 200 tables with ~10TB of data.
 
 Packages are targeting .Net Standard 2.0
 
@@ -22,7 +24,7 @@ Packages are targeting .Net Standard 2.0
 
 # Usage
 
-When packages are added and set-up (see "Installation" section below) - as application developer you need to do two things (besides writing tests).
+When packages are added and set-up (see "[Setup](https://github.com/salixzs/Dapper.Cqrs/wiki/Setup)" in Wiki) - as application developer you need to do two things (besides writing tests).
 
 * Create `IQuery` (Data retrieval) or `ICommand` (Data modification) implementation classes based on provided base classes.
 * Inject `ICommandQueryContext` into your business logic class and use it to execute `IQuery` and `ICommand` classes against database engine. This is the only dependency required to work with database (Yeah, no more numerous repositories to depend upon!)
@@ -30,23 +32,12 @@ When packages are added and set-up (see "Installation" section below) - as appli
 ## IQuery
 Required to be able to read data from database. Create new class and implement its interface (used provided base class to partially do that):
 ```csharp
-public sealed class SampleQuery : MsSqlQueryMultipleBase<SampleData>
+public sealed class GetAllRecordsQuery : MsSqlQueryMultipleBase<SampleData>
 {
-    // hold parameters for query passed into class
-    private readonly int _id;
-    
-    // Constructor
-    public SampleQuery(int id) => _id = id;
-    
-    // Prepare anonymous object for Dapper to pass parameters for SQL statment
-    public override object Parameters => new { RefId = _id };
-    
-    // Here is actual SQL statement for data query
-    public override string SqlStatement => "SELECT Data FROM Table WHERE FkId = @RefId";
+    public override string SqlStatement => "SELECT * FROM SampleDataTable";
 }
 ```
-Here base class `MsSqlQueryMultipleBase<T>` is class, implementing most of `IQuery` interface demands to retrieve multiple records (`IEnumerable<T>`) from database.
-Base class `MsSqlQuerySingleBase<T>` does the same, but to retrieve only one record mapped to database poco object `T`.
+
 
 ## ICommand
 Similar to Query above, but dedicated to data modification statements.
@@ -90,13 +81,13 @@ public class SampleLogic : ISampleLogic
 Then in this class methods you can use this injected object and use its methods with prepared `IQuery` and `ICommand` classes to do database calls.
 
 ```csharp
-// Reading data
-public async Task<IEnumerable<SampleData>> GetAll(int refId) => 
-    await _db.QueryAsync(new SampleQuery(refId));
+// Reading data (CancellationToken in optional parameter - can be omitted = CancellationToken.None)
+public async Task<IEnumerable<SampleData>> GetAll(int refId, CancellationToken token) => 
+    await _db.QueryAsync(new SampleQuery(refId), token);
 
-// Creating (saving) data
-public async Task<int> Create(SampleData dataObject) => 
-    await _db.ExecuteAsync(new SampleCreateCommand(dataObject));
+// Creating (saving) data (CancellationToken in optional parameter - can be omitted = CancellationToken.None)
+public async Task<int> Create(SampleData dataObject, CancellationToken token) => 
+    await _db.ExecuteAsync(new SampleCreateCommand(dataObject), token);
 ```
 
 ## Testability
@@ -105,27 +96,6 @@ As package uses interfaces for everything - it is easy to be mocked for isolatio
 `Testing` package includes prepared base classes and helpers to automatically find all Queries and Commands in your project and validate SQL statements in those against database for syntax validity. There are helpers for other testing needs, like compare DTO with database object and write/read tests.
 
 See Sample project testing project for reference to such tests.
-
-# Installation
-For .Net projects which needs access to database, reference database engine specific package.
-```text
-PM> Salix.Dapper.Cqrs.MsSql
-```
-If you put query and command classes in their own projects, you need to reference just abstractions package
-```text
-PM> Salix.Dapper.Cqrs.Abstractions
-```
-## Registration
-Register package components with your dependency injection container, like here for MS.Extensions.DI
-```csharp
-services.AddScoped<IMsSqlContext, DatabaseContext>(svc =>
-    new DatabaseContext(
-        connectionString,
-        svc.GetService<ILogger<DatabaseContext>>()));
-services.AddScoped<IDatabaseSession, SqlDatabaseSession>();
-services.AddScoped<ICommandQueryContext, CommandQueryContext>();
-```
-Components should be registered with scope, equal to one business operation (Unit of Work). As for ASP.NET Web applications/apis this is per-request scope - Scoped.
 
 > Read more detailed documentation in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
 

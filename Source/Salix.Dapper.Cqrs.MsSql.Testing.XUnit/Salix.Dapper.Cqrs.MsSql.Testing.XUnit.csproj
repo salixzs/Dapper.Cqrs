@@ -32,6 +32,7 @@ Available new file templates takes care of creating necessary boilerplate code.
     <PackageProjectUrl>https://github.com/salixzs/Dapper.Cqrs/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/salixzs/Dapper.Cqrs</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageReadmeFile>../../nuget_readme.md</PackageReadmeFile>
 
     <PackageReleaseNotes>
 Updates to dependencies. Documentation generation.
@@ -43,6 +44,7 @@ Updates to dependencies. Documentation generation.
 
   <ItemGroup>
     <None Include="../../DapperCQRS.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../nuget_readme.md" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
   <!-- === 3rd party references ===-->

@@ -80,7 +80,6 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// <param name="sqlStatement">The function, usually incorporating SQL statement.</param>
         T ExecuteSql<T>(Func<IDbTransaction, T> sqlStatement);
 
-
         /// <summary>
         /// Executes given Query, regardless of its type (SELECT, INSERT, UPDATE, DELETE, EXECUTE etc.).
         /// Example:

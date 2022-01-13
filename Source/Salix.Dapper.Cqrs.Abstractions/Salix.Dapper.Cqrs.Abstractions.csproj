@@ -8,6 +8,7 @@
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <!-- === NuGet package description properties ===-->
@@ -30,17 +31,19 @@ Available new file templates takes care of creating necessary boilerplate code.
     <PackageProjectUrl>https://github.com/salixzs/Dapper.Cqrs/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/salixzs/Dapper.Cqrs</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-
+    <PackageReadmeFile>../../nuget_readme.md</PackageReadmeFile>
+    
     <PackageReleaseNotes>
-Added ConnectionString property to DbContext contract. Added documentation comments generation.
+Added CancellationToken parameter (defaults to CancellationToken.None) for async operations.
     </PackageReleaseNotes>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.2.0</Version>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="../../DapperCQRS.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../nuget_readme.md" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
 </Project>

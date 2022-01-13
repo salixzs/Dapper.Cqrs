@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Xunit;
@@ -30,7 +31,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
         {
             var query = new Mock<IQuery<int>>();
             await _testable.QueryAsync(query.Object);
-            query.Verify(q => q.ExecuteAsync(_sqlSession.Object), Times.Once);
+            query.Verify(q => q.ExecuteAsync(_sqlSession.Object, CancellationToken.None), Times.Once);
         }
 
         [Fact]
@@ -38,7 +39,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
         {
             var command = new Mock<ICommand>();
             await _testable.ExecuteAsync(command.Object);
-            command.Verify(q => q.ExecuteAsync(_sqlSession.Object), Times.Once);
+            command.Verify(q => q.ExecuteAsync(_sqlSession.Object, CancellationToken.None), Times.Once);
         }
 
         [Fact]
@@ -46,7 +47,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
         {
             var command = new Mock<ICommand<string>>();
             string _ = await _testable.ExecuteAsync(command.Object);
-            command.Verify(q => q.ExecuteAsync(_sqlSession.Object), Times.Once);
+            command.Verify(q => q.ExecuteAsync(_sqlSession.Object, CancellationToken.None), Times.Once);
         }
 
         [Fact]

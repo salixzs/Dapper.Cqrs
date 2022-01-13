@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -13,7 +14,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Actual executable method of database query which returns data from database.
         /// </summary>
         /// <param name="session">The database connection session.</param>
-        Task<T> ExecuteAsync(IDatabaseSession session);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task<T> ExecuteAsync(IDatabaseSession session, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Actual executable method of database query which returns data from database.
