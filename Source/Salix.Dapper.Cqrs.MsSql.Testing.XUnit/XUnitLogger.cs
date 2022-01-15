@@ -113,7 +113,7 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
 
     /// <summary>
     /// Microsoft ILogger implementation, which can be used in XUnit tests as stub for real logger.
-    /// Writes messages to Output stream and also stores in internal property <seealso cref="LoggedMessages"/> so they can be asserted.
+    /// Writes messages to Output stream and also stores in internal property <seealso cref="LogStatements"/> so they can be asserted.
     /// </summary>
     /// <seealso cref="ILogger" />
     [ExcludeFromCodeCoverage]

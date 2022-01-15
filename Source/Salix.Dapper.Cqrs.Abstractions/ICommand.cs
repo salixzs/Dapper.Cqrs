@@ -43,7 +43,6 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes the specified SQL statement(s) onto database session and returns data.
         /// </summary>
         /// <param name="session">The database connection session.</param>
-        /// <param name="cancellationToken">Operation cancellation token.</param>
         T Execute(IDatabaseSession session);
     }
 #pragma warning restore RCS1060 // Declare each type in separate file.
