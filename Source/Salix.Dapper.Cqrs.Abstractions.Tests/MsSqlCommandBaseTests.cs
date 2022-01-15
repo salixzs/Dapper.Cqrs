@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -99,7 +100,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
         {
             var cqrs = new CommandQueryContext(_dbSession.Object);
             await cqrs.ExecuteAsync(new SimpleCommand());
-            _dbSession.Verify(s => s.ExecuteAsync(It.Is<string>(s => s == "UPDATE Table SET Fld = @val"), It.Is<object>(o => o.Equals(new { val = 12 }))), Times.Once);
+            _dbSession.Verify(s => s.ExecuteAsync(It.Is<string>(s => s == "UPDATE Table SET Fld = @val"), It.Is<object>(o => o.Equals(new { val = 12 })), CancellationToken.None), Times.Once);
             _dbSession.VerifyNoOtherCalls();
         }
 
@@ -117,7 +118,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
         {
             var cqrs = new CommandQueryContext(_dbSession.Object);
             await cqrs.ExecuteAsync(new SimpleReturnCommand());
-            _dbSession.Verify(s => s.ExecuteAsync<int>(It.Is<string>(s => s == "INSERT INTO Table (Name) VALUES (@Name)"), It.Is<object>(o => o.Equals(new { Name = ".Net" }))), Times.Once);
+            _dbSession.Verify(s => s.ExecuteAsync<int>(It.Is<string>(s => s == "INSERT INTO Table (Name) VALUES (@Name)"), It.Is<object>(o => o.Equals(new { Name = ".Net" })), CancellationToken.None), Times.Once);
             _dbSession.VerifyNoOtherCalls();
         }
 

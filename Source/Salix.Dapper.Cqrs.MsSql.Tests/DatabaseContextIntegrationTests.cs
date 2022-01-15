@@ -2,10 +2,12 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Salix.Dapper.Cqrs.Abstractions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,11 +18,13 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
     {
         private DatabaseContext _sut;
         private readonly XUnitLogger<DatabaseContext> _log;
+        private readonly ITestOutputHelper _output;
 
         public DatabaseContextIntegrationTests(ITestOutputHelper output)
         {
             _log = new XUnitLogger<DatabaseContext>(output);
             _sut = new DatabaseContext(ChinookLightTestsFixture.SqlConnectionString, _log);
+            _output = output;
         }
 
         public void Dispose() => _sut.Dispose();
@@ -776,5 +780,49 @@ namespace Salix.Dapper.Cqrs.MsSql.Tests
             _log.LoggedMessages[7].Should().Contain("Received message \"Information text\"");
             _log.LoggedMessages[8].Should().Contain("Received message \"This is PRINT event\"");
         }
+
+        [Fact]
+        public async Task QueryAsync_CancellationToken_GetsCancelled()
+        {
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+            var sessionLogger = new XUnitLogger<SqlDatabaseSession>(_output);
+            var sess = new SqlDatabaseSession(_sut, sessionLogger);
+            var cqrs = new CommandQueryContext(sess);
+
+            var resultTask = cqrs.QueryAsync(new LongQuery(), cancellationTokenSource.Token);
+            try
+            {
+                if (!resultTask.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Async Query Cancellation did not happen."); // should have cancelled
+                }
+            }
+            catch (AggregateException agg)
+            {
+                Assert.True(agg.InnerException.GetType().Name == "SqlException");
+            }
+
+            _sut.Dispose();
+        }
+
+        [Fact]
+        public async Task QueryAsync_NoCancellationToken_Waits()
+        {
+            var sessionLogger = new XUnitLogger<SqlDatabaseSession>(_output);
+            var sess = new SqlDatabaseSession(_sut, sessionLogger);
+            var cqrs = new CommandQueryContext(sess);
+
+            var result = await cqrs.QueryAsync(new LongQuery());
+            result.Should().Be(1);
+            _sut.ExecutionTime.Should().BeGreaterThan(TimeSpan.FromSeconds(9));
+            _sut.Dispose();
+        }
+    }
+
+
+    [ExcludeFromCodeCoverage]
+    public sealed class LongQuery : MsSqlQuerySingleBase<int?>
+    {
+        public override string SqlStatement => "WAITFOR DELAY '00:00:10';SELECT 1";
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -24,7 +25,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Actual executable method of database query which returns data from database.
         /// </summary>
         /// <param name="session">The database connection session.</param>
-        public virtual async Task<T> ExecuteAsync(IDatabaseSession session) => await session.QueryFirstOrDefaultAsync<T>(this.SqlStatement, this.Parameters);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        public virtual async Task<T> ExecuteAsync(IDatabaseSession session, CancellationToken cancellationToken) => await session.QueryFirstOrDefaultAsync<T>(this.SqlStatement, this.Parameters, cancellationToken);
     }
 
     /// <summary>
@@ -46,7 +48,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Actual executable method of database query which returns data from database.
         /// </summary>
         /// <param name="session">The database connection session.</param>
-        public virtual async Task<IEnumerable<T>> ExecuteAsync(IDatabaseSession session) => await session.QueryAsync<T>(this.SqlStatement, this.Parameters);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        public virtual async Task<IEnumerable<T>> ExecuteAsync(IDatabaseSession session, CancellationToken cancellationToken) => await session.QueryAsync<T>(this.SqlStatement, this.Parameters, cancellationToken);
     }
 
     /// <summary>

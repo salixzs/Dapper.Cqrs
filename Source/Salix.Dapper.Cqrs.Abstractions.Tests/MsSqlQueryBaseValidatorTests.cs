@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
@@ -40,7 +41,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
         {
             var cqrs = new CommandQueryContext(_dbSession.Object);
             await cqrs.QueryAsync(new SimpleSingleQuery());
-            _dbSession.Verify(s => s.QueryFirstOrDefaultAsync<int>(It.Is<string>(s => s == "SELECT Id FROM Table WHERE Id = @Id"), It.Is<object>(o => o.Equals(new { Id = 12 }))), Times.Once);
+            _dbSession.Verify(s => s.QueryFirstOrDefaultAsync<int>(It.Is<string>(s => s == "SELECT Id FROM Table WHERE Id = @Id"), It.Is<object>(o => o.Equals(new { Id = 12 })), CancellationToken.None), Times.Once);
             _dbSession.VerifyNoOtherCalls();
         }
 
@@ -58,7 +59,7 @@ namespace Salix.Dapper.Cqrs.Abstractions.Tests
         {
             var cqrs = new CommandQueryContext(_dbSession.Object);
             await cqrs.QueryAsync(new SimpleMultipleQuery());
-            _dbSession.Verify(s => s.QueryAsync<int>(It.Is<string>(s => s == "SELECT Id FROM Table WHERE TypeName = @Name"), It.Is<object>(o => o.Equals(new { Name = ".Net" }))), Times.Once);
+            _dbSession.Verify(s => s.QueryAsync<int>(It.Is<string>(s => s == "SELECT Id FROM Table WHERE TypeName = @Name"), It.Is<object>(o => o.Equals(new { Name = ".Net" })), CancellationToken.None), Times.Once);
             _dbSession.VerifyNoOtherCalls();
         }
 
