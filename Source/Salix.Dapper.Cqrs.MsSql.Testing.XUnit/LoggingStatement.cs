@@ -29,6 +29,9 @@ namespace Salix.Dapper.Cqrs.MsSql.Testing.XUnit
         /// </summary>
         public Exception Exception { get; set; }
 
+        /// <summary>
+        /// Logging statement string representation (human eyes view only).
+        /// </summary>
         public override string ToString()
         {
             var dbgView = new StringBuilder();

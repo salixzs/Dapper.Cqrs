@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -13,7 +14,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes the <see cref="MsSqlCommandValidatorBase.SqlStatement"/> onto SQL Server Session asynchronously.
         /// </summary>
         /// <param name="session">The MS SQL connection session.</param>
-        public virtual async Task ExecuteAsync(IDatabaseSession session) => await session.ExecuteAsync(this.SqlStatement, this.Parameters);
+        /// <param name="cancellationToken">Asynchronous operation cancellation token.</param>
+        public virtual async Task ExecuteAsync(IDatabaseSession session, CancellationToken cancellationToken) => await session.ExecuteAsync(this.SqlStatement, this.Parameters, cancellationToken);
 
         /// <summary>
         /// Executes the <see cref="MsSqlCommandValidatorBase.SqlStatement"/> onto SQL Server Session synchronously.
@@ -33,7 +35,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes the <see cref="MsSqlCommandValidatorBase.SqlStatement"/> onto SQL Server Session asynchronously.
         /// </summary>
         /// <param name="session">The MS SQL connection session.</param>
-        public virtual async Task<T> ExecuteAsync(IDatabaseSession session) => await session.ExecuteAsync<T>(this.SqlStatement, this.Parameters);
+        /// <param name="cancellationToken">Asynchronous operation cancellation token.</param>
+        public virtual async Task<T> ExecuteAsync(IDatabaseSession session, CancellationToken cancellationToken) => await session.ExecuteAsync<T>(this.SqlStatement, this.Parameters, cancellationToken);
 
         /// <summary>
         /// Executes the <see cref="MsSqlCommandValidatorBase.SqlStatement"/> onto SQL Server Session synchronously.

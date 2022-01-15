@@ -1,66 +1,81 @@
 # Dapper.Cqrs
 
-Libraries (NuGet packages) to help employ [CQRS](https://martinfowler.com/bliki/CQRS.html) (Command Query Responsibility Segregation) pattern to database access in various .Net projects. Approach unifies database data retrieval under CQRS handler, which is the only dependency for business logic (getting rid of multiple repository injections).
+A set of NuGet packages provides ability to use [CQRS (Command Query Responsibility Segregation)](https://martinfowler.com/bliki/CQRS.html) pattern for database data reading (Queries) or its modification (Commands). It includes ambient connection and transaction handling, so after *easy* [set-up](https://github.com/salixzs/Dapper.Cqrs/wiki/Setup), developers are only required to write [Query](https://github.com/salixzs/Dapper.Cqrs/wiki/IQuery) and [Command](https://github.com/salixzs/Dapper.Cqrs/wiki/ICommand) classes which usually are database SQL statements, wrapped in separate classes, with a little bit of parameter handling (business as usual).
 
-Package uses [Dapper](https://stackexchange.github.io/Dapper/) - a simple object mapper for .Net built by StackOverflow developers and is one of the most performing ORMs in .Net landscape (if not fastest).
+Solution is using [Dapper Micro-ORM](https://dapperlib.github.io/Dapper/), a simple object mapper for .Net built by StackOverflow developers and is one of the most performing ORMs in .Net landscape (if not fastest).
 
-Solution is separating concerns into Abstractions (no dependencies), Database-specific and Testing helpers to be used in more architecturally utilizable way with [practical developer usage ease](https://github.com/salixzs/Dapper.Cqrs/wiki/Productivity) and ability to [validate "magic string queries"](https://github.com/salixzs/Dapper.Cqrs/wiki/QueryTesting) against database to avoid runtime fails due to database structural changes not followed in code.
+Packages are built with [practical developer usage ease](https://github.com/salixzs/Dapper.Cqrs/wiki/Productivity) in mind and ability to [validate "magic string queries"](https://github.com/salixzs/Dapper.Cqrs/wiki/QueryTesting) against database to avoid runtime fails due to database structural changes becoming inconsistent with code as well as other helpers to ease writing tests for logic that uses these packages.
 
-[Repo](https://github.com/salixzs/Dapper.Cqrs) containing actual usage [sample project](https://github.com/salixzs/Dapper.Cqrs/wiki/AspNet5ApiSample) and Visual Studio [item templates](https://github.com/salixzs/Dapper.Cqrs/wiki/Productivity#provided-templates) for most of development needs.
-
-> Detailed documentation is in [WIKI](https://github.com/salixzs/Dapper.Cqrs/wiki).
-
-# Usage
-
-When packages are added and set-up (see "Installation" section below) - as application developer you need to do two things (besides writing tests).
-
-* Create `IQuery` (Data retrieval) or `ICommand` (Data modification) implementation classes based on provided base classes.
-* Inject `ICommandQueryContext` into your business logic class and use it to execute `IQuery` and `ICommand` classes against database engine. This is the only dependency required to work with database (Yeah, no more numerous repositories to depend upon!)
-
-## IQuery & MsSqlQuery*Base
-Required to be able to read data from database. Create new class and implement its interface via provided base classes.
-Case class `MsSqlQueryMultipleBase<T>` is class, implementing most of `IQuery` interface demands to retrieve multiple records (`IEnumerable<T>`) from database.
-Base class `MsSqlQuerySingleBase<T>` does the same, but to retrieve only one record mapped to database poco object `T`.
-
-## ICommand
-Required to be able to modify data in database. Create new class and implement its interface via provided base classes.
-
-## Execution
-Inject `ICommandQueryContext` into your business logic classes, which require to work with data in database.
+Simplistic short example on how usage might look in your code:
 ```csharp
-public class SampleLogic : ISampleLogic
+public class MyBusinessLogic : IMyBusinessLogic
 {
+    // field, assigned in constructor, which provides ability 
+    // to execute Queries and Commands onto database
     private readonly ICommandQueryContext _db;
     
-    // Constructor - yes, inject just this one (no more numerous repositories!)
-    public SampleLogic(ICommandQueryContext db) => _db = db;
+    // Class constructor - inject DB access context into field above
+    public MyBusinessLogic(ICommandQueryContext db) => _db = db;
+    
+    // Business logic method
+    public async Task<IEnumerable<MyObject>> BusinessOperation(int myObjectId)
+    {
+        // COMMAND: Executing some INSERT into Audit table implemented in ICommand class
+        await _db.ExecuteAsync(new AuditRecordCommand(auditData));
+        
+        // QUERY: Get the object to return implemented in IQuery class
+        return await _db.QueryAsync(new GetMyObjectQuery(myObjectId));
+    }
+}
+
+// ICommand class used in Logic class above to insert Audit record
+public sealed class AuditRecordCommand : MsSqlCommandBase
+{
+    private readonly AuditRecord _dbObject;
+    public AuditRecordCommand(AuditRecord dbObject) => _dbObject = dbObject;
+    public override object Parameters => _dbObject;
+    public override string SqlStatement => @"INSERT INTO Audit (Field1, Field2...) VALUES (@Field1, @Field2)";
+}
+
+// IQuery class used to retrieve record in logic class above
+public sealed class GetMyObjectQuery : MsSqlQuerySingleBase<MyObject>
+{
+    public override string SqlStatement => "SELECT * FROM MyObject";
 }
 ```
 
-Then in this class methods you can use this injected object and use its methods with prepared `IQuery` and `ICommand` classes to do database calls.
+When first command (AuditRecordInsert) is executed, dbContext object creates and opens DB connection and creates a transaction on it, then executes the INSERT command with passed object as parameter for it. After - query object (GetMyObjectQuery) is reusing the same connection and transaction to get the data and return it to caller. Upon operation end and dbContext dispose - transaction is committed and connection closed. In case there are exceptions in business logic (including database operations) - transaction is rollback for entire operation (unit-of-work).
 
-```csharp
-// Reading data
-public async Task<IEnumerable<SampleData>> GetAll(int refId) => 
-    await _db.QueryAsync(new SampleQuery(refId));
+This approach provides a big flexibility of using database data in any of your business logic without relaying onto numerous repositories, as well as by using native database language for optimized data modification and retrieval, giving way bigger performance benefits in compare to magically generated SQL statements by OOP language (like in Entity Framework, Linq-to-SQL).
 
-// Creating (saving) data
-public async Task<int> Create(SampleData dataObject) => 
-    await _db.ExecuteAsync(new SampleCreateCommand(dataObject));
-```
+Code in packages are covered by unit-tests and assembly-tests to levels more than 90% to ensure they are of the best quality possible and to work as expected.
 
-## Testability
-As package uses interfaces for everything - it is easy to be mocked for isolation in pure unit-testing routines.
+Approach is succesfully used in huge project (>3M code lines) and database of 200 tables with ~10TB of data.
 
-`Testing` package includes prepared base classes and helpers to automatically find all Queries and Commands in your project and validate SQL statements in those against database for syntax validity. There are helpers for other testing needs, like compare DTO with database object and write/read tests.
+## Package suite
 
-## Registration
-Register package components with your dependency injection container, like here for MS.Extensions.DI
-```csharp
-services.AddScoped<IMsSqlContext, DatabaseContext>(svc =>
-    new DatabaseContext(
-        connectionString,
-        svc.GetService<ILogger<DatabaseContext>>()));
-services.AddScoped<IDatabaseSession, SqlDatabaseSession>();
-services.AddScoped<ICommandQueryContext, CommandQueryContext>();
-```
+Approach is separated into three assemblies (packages):
+
+### [Abstractions](https://www.nuget.org/packages/Salix.Dapper.Cqrs.Abstractions/)
+Provide common interfaces and base functionalities suitable for all database engines. This package does not demand specific database client as dependency. 
+It contains `IQuery` and `ICommand` interfaces as well as internal interfaces and implementation to employ Unit-of-Work database connection and transaction handling.
+
+### [Database-specific implementation(s)](https://www.nuget.org/packages/Salix.Dapper.Cqrs.MsSql/) - *now only MsSQL*
+Classes and functionalities to work with database engine, handling its specific connection by opening, closing and transaction handling transparently for application which is using it.
+
+### [Helpers to write tests against database](https://www.nuget.org/packages/Salix.Dapper.Cqrs.MsSql.Testing.XUnit/) - XUnit/MsSql
+Classes and functionalities to be able to write integration/assembly tests, using real database engine, which eases checking SQL statements in Queries and Commands, Compares C# POCO data objects with database structure and saving/reading test data.
+
+# Is it better than Entity Framework?
+
+As with everything - yes and no. Depending on... (your lifestyle and preferences here)
+
+Using Dapper and similar in projects are usually tied to need for solid database data retrieval performance or getting data from very complex queries. Latest EF Core 6 introducing quite a performance boost, so it might not be the case lately, however... 
+
+When using Entity Framework you are rarely concerned about SQL syntax and what magic is hidden behind your LINQ statements. It works perfectly for simple solutions and probably would be recommended approach for projects/people who do not want to deal with database query language (effectively making data storage mechanism a second class citizen to application).
+
+But as soon as database becomes more complex and required data retrieval involves many objects - not following generated SQL behind LINQ can lead to considerable performance problems (N+1, Cartesian product). Then different non-standard side approaches are implemented (Stored Procedures, Views, Custom solutions - ADO.NET or using some MicroORM as fallback for such situations).
+
+So using Dapper will make you write SQL statements and do more boilerplate coding, but it increases control over how and when data is read and write to database and bringing data storage as a first class citizen in your application.
+
+This project just wraps Dapper into CQRS approach and allows to get all project SQL statements in "magic strings" easily located by C# code (e.g. for automated validation).

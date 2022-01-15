@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Logging;
@@ -49,14 +50,19 @@ namespace Salix.Dapper.Cqrs.MsSql
         }
 
         /// <inheritdoc/>
-        public virtual async Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameter = null)
+        public virtual async Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameter = null, CancellationToken cancellationToken = default)
         {
             if (_logger.IsEnabled(LogLevel.Trace))
             {
                 _logger.LogTrace("QueryAsync<T>({Query}) called with expected return of type IEnumerable<{TypeParam}>.", sqlQuery.ToShortSql(), typeof(T).Name);
             }
 
-            IEnumerable<T> result = await _context.ExecuteSql(transaction => _context.Connection.QueryAsync<T>(sqlQuery, parameter, transaction));
+            IEnumerable<T> result = await _context.ExecuteSql(transaction =>
+            {
+                var sqlCommand = new CommandDefinition(sqlQuery, parameter, transaction, cancellationToken: cancellationToken);
+                return _context.Connection.QueryAsync<T>(sqlCommand);
+            });
+
             this.ExecutionTime = _context.ExecutionTime;
             return result;
         }
@@ -75,14 +81,19 @@ namespace Salix.Dapper.Cqrs.MsSql
         }
 
         /// <inheritdoc/>
-        public virtual async Task<T> QueryFirstOrDefaultAsync<T>(string sqlQuery, object parameter = null)
+        public virtual async Task<T> QueryFirstOrDefaultAsync<T>(string sqlQuery, object parameter = null, CancellationToken cancellationToken = default)
         {
             if (_logger.IsEnabled(LogLevel.Trace))
             {
                 _logger.LogTrace("QueryFirstOrDefaultAsync<T>({Query}) called with expected return of type {TypeParam}.", sqlQuery.ToShortSql(), typeof(T).Name);
             }
 
-            T result = await _context.ExecuteSql(transaction => _context.Connection.QueryFirstOrDefaultAsync<T>(sqlQuery, parameter, transaction));
+            T result = await _context.ExecuteSql(transaction =>
+            {
+                var sqlCommand = new CommandDefinition(sqlQuery, parameter, transaction, cancellationToken: cancellationToken);
+                return _context.Connection.QueryFirstOrDefaultAsync<T>(sqlCommand);
+            });
+
             this.ExecutionTime = _context.ExecutionTime;
             return result;
         }
@@ -113,26 +124,34 @@ namespace Salix.Dapper.Cqrs.MsSql
         }
 
         /// <inheritdoc/>
-        public virtual async Task ExecuteAsync(string sql, object parameter = null)
+        public virtual async Task ExecuteAsync(string sql, object parameter = null, CancellationToken cancellationToken = default)
         {
             if (_logger.IsEnabled(LogLevel.Trace))
             {
                 _logger.LogTrace("ExecuteAsync({Sql}) issued for SqlDatabaseSession.", sql.ToShortSql());
             }
 
-            await _context.ExecuteSql(transaction => _context.Connection.ExecuteAsync(sql, parameter, transaction));
+            await _context.ExecuteSql(transaction =>
+            {
+                var sqlCommand = new CommandDefinition(sql, parameter, transaction, cancellationToken: cancellationToken);
+                return _context.Connection.ExecuteAsync(sqlCommand);
+            });
             this.ExecutionTime = _context.ExecutionTime;
         }
 
         /// <inheritdoc/>
-        public virtual async Task<T> ExecuteAsync<T>(string sql, object parameter)
+        public virtual async Task<T> ExecuteAsync<T>(string sql, object parameter, CancellationToken cancellationToken = default)
         {
             if (_logger.IsEnabled(LogLevel.Trace))
             {
                 _logger.LogTrace("Execute<T>({Sql}) called with expected return of type {TypeParam}.", sql.ToShortSql(), typeof(T).Name);
             }
 
-            T result = await _context.ExecuteSql(transaction => _context.Connection.QueryFirstOrDefaultAsync<T>(sql, parameter, transaction));
+            T result = await _context.ExecuteSql(transaction =>
+            {
+                var sqlCommand = new CommandDefinition(sql, parameter, transaction, cancellationToken: cancellationToken);
+                return _context.Connection.QueryFirstOrDefaultAsync<T>(sqlCommand);
+            });
             this.ExecutionTime = _context.ExecutionTime;
             return result;
         }

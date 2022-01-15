@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -20,13 +21,13 @@ namespace Salix.Dapper.Cqrs.Abstractions
         public CommandQueryContext(IDatabaseSession databaseSession) => _databaseSession = databaseSession;
 
         /// <inheritdoc/>
-        public async Task<T> QueryAsync<T>(IQuery<T> sqlQuery) => await sqlQuery.ExecuteAsync(_databaseSession);
+        public async Task<T> QueryAsync<T>(IQuery<T> sqlQuery, CancellationToken cancellationToken = default) => await sqlQuery.ExecuteAsync(_databaseSession, cancellationToken);
 
         /// <inheritdoc/>
-        public async Task ExecuteAsync(ICommand command) => await command.ExecuteAsync(_databaseSession);
+        public async Task ExecuteAsync(ICommand command, CancellationToken cancellationToken = default) => await command.ExecuteAsync(_databaseSession, cancellationToken);
 
         /// <inheritdoc/>
-        public async Task<T> ExecuteAsync<T>(ICommand<T> command) => await command.ExecuteAsync(_databaseSession);
+        public async Task<T> ExecuteAsync<T>(ICommand<T> command, CancellationToken cancellationToken = default) => await command.ExecuteAsync(_databaseSession, cancellationToken);
 
         /// <inheritdoc/>
         public T Query<T>(IQuery<T> sqlQuery) => sqlQuery.Execute(_databaseSession);

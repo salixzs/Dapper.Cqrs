@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -13,7 +14,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes the specified SQL statement(s) onto database session.
         /// </summary>
         /// <param name="session">The database connection session.</param>
-        Task ExecuteAsync(IDatabaseSession session);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task ExecuteAsync(IDatabaseSession session, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes the specified SQL statement(s) onto database session and returns data.
@@ -34,7 +36,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Executes the specified SQL statement onto session.
         /// </summary>
         /// <param name="session">The database connection session.</param>
-        Task<T> ExecuteAsync(IDatabaseSession session);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task<T> ExecuteAsync(IDatabaseSession session, CancellationToken cancellationToken);
 
         /// <summary>
         /// Executes the specified SQL statement(s) onto database session and returns data.

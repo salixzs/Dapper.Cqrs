@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -40,7 +41,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// <typeparam name="T">Domain object type (as in DDD).</typeparam>
         /// <param name="sqlQuery">Valid SQL Query statement.</param>
         /// <param name="parameter">The parameter(s) for SQL Query statement (can be anonymous object).</param>
-        Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameter = null);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task<IEnumerable<T>> QueryAsync<T>(string sqlQuery, object parameter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes the specified SQL Statement via Dapper through <see cref="IDatabaseContext">context</see>
@@ -66,7 +68,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// <typeparam name="T">Domain object type (as in DDD).</typeparam>
         /// <param name="sqlQuery">Valid SQL Query statement.</param>
         /// <param name="parameter">The parameter(s) for SQL Query statement (can be anonymous object).</param>
-        Task<T> QueryFirstOrDefaultAsync<T>(string sqlQuery, object parameter = null);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task<T> QueryFirstOrDefaultAsync<T>(string sqlQuery, object parameter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes the specified SQL Statement via Dapper through <see cref="IDatabaseContext">context</see>.
@@ -103,7 +106,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// </summary>
         /// <param name="sql">The SQL statement.</param>
         /// <param name="parameter">The parameter(s) for SQL statement (can be anonymous object).</param>
-        Task ExecuteAsync(string sql, object parameter = null);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task ExecuteAsync(string sql, object parameter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes the specified SQL statement via Dapper through context.
@@ -115,7 +119,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// <typeparam name="T">Type of return value.</typeparam>
         /// <param name="sql">The SQL statement.</param>
         /// <param name="parameter">The parameter(s) for SQL statement (can be anonymous object).</param>
-        Task<T> ExecuteAsync<T>(string sql, object parameter = null);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task<T> ExecuteAsync<T>(string sql, object parameter = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Explicitly Rollbacks the database transaction to rollback any transaction

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Salix.Dapper.Cqrs.Abstractions
@@ -22,7 +23,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// </remarks>
         /// <typeparam name="T">Domain (as in DDD) object.</typeparam>
         /// <param name="sqlQuery">The query class object, implementing IQuery interface.</param>
-        Task<T> QueryAsync<T>(IQuery<T> sqlQuery);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task<T> QueryAsync<T>(IQuery<T> sqlQuery, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes Command object (in "Cqrs") onto SQL database, usually modifying data there.
@@ -35,7 +37,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// Use <see cref="IQuery{T}" /> for reading data from database.
         /// </remarks>
         /// <param name="command">The command class object, implementing ICommand interface.</param>
-        Task ExecuteAsync(ICommand command);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task ExecuteAsync(ICommand command, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes Command object (in "Cqrs") onto SQL database, probably modifying data there and returning data as well.
@@ -49,7 +52,8 @@ namespace Salix.Dapper.Cqrs.Abstractions
         /// </remarks>
         /// <typeparam name="T">Type expected to be returned by executing command.</typeparam>
         /// <param name="command">The command class object, implementing ICommand interface.</param>
-        Task<T> ExecuteAsync<T>(ICommand<T> command);
+        /// <param name="cancellationToken">Operation cancellation token.</param>
+        Task<T> ExecuteAsync<T>(ICommand<T> command, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes Query object (in "cQrs") onto SQL database, returning Domain object(s).
