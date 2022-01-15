@@ -9,7 +9,7 @@
     <NeutralLanguage>en</NeutralLanguage>
     <IsTestProject>false</IsTestProject>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <!-- === NuGet package description properties ===-->
