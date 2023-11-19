@@ -34,11 +34,11 @@ Available new file templates takes care of creating necessary boilerplate code (
     <PackageReadmeFile>nuget_readme.md</PackageReadmeFile>
 
     <PackageReleaseNotes>
-Updated references, especially deprecated SqlClient with vulnerability.
+Updated NuGet references.
     </PackageReleaseNotes>
-    <Version>1.2.1</Version>
-    <AssemblyVersion>1.2.1.0</AssemblyVersion>
-    <FileVersion>1.2.1.0</FileVersion>
+    <Version>1.2.2</Version>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
+    <FileVersion>1.2.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,9 +48,9 @@ Updated references, especially deprecated SqlClient with vulnerability.
 
   <!-- === 3rd party references ===-->
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.15" />
+    <PackageReference Include="Dapper" Version="2.1.21" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
