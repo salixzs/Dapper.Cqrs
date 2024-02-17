@@ -36,9 +36,9 @@ Available new file templates takes care of creating necessary boilerplate code (
     <PackageReleaseNotes>
 Updated NuGet references.
     </PackageReleaseNotes>
-    <Version>1.2.2</Version>
-    <AssemblyVersion>1.2.2.0</AssemblyVersion>
-    <FileVersion>1.2.2.0</FileVersion>
+    <Version>1.2.3</Version>
+    <AssemblyVersion>1.2.3.0</AssemblyVersion>
+    <FileVersion>1.2.3.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,10 +48,10 @@ Updated NuGet references.
 
   <!-- === 3rd party references ===-->
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.21" />
+    <PackageReference Include="Dapper" Version="2.1.28" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
   <!-- === Own references ===-->
