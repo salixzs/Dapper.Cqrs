@@ -1,7 +1,7 @@
 using System;
-using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Microsoft.Data.SqlClient;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 

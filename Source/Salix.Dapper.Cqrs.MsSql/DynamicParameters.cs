@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Dapper;
+using Microsoft.Data.SqlClient;
 using Salix.Dapper.Cqrs.Abstractions;
 
 namespace Salix.Dapper.Cqrs.MsSql
@@ -17,7 +17,7 @@ namespace Salix.Dapper.Cqrs.MsSql
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class DynamicParameters : IDynamicParameters, SqlMapper.IDynamicParameters
     {
-        private readonly Dictionary<string, DynamicParameterInfo> _parameters = new();
+        private readonly Dictionary<string, DynamicParameterInfo> _parameters = [];
 
         /// <summary>
         /// All the names of the parameters in the bag, use Get to yank them out.

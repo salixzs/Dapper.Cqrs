@@ -1,5 +1,5 @@
 using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Salix.Dapper.Cqrs.Abstractions;
 
 namespace Salix.Dapper.Cqrs.MsSql

@@ -1,11 +1,11 @@
 using System;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Salix.Dapper.Cqrs.Abstractions;
 
@@ -329,10 +329,7 @@ namespace Salix.Dapper.Cqrs.MsSql
 
             this.ReleaseConnection();
 
-            if (_connection != null)
-            {
-                _connection.Dispose();
-            }
+            _connection?.Dispose();
         }
 
         /// <summary>

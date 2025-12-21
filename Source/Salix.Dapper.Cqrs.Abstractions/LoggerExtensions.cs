@@ -35,12 +35,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
                 return $"{elapsedTime.Minutes:D} min {elapsedTime.Seconds:D} sec";
             }
 
-            if (elapsedTime.Seconds < 10)
-            {
-                return $"{elapsedTime.Seconds:D} sec {elapsedTime.Milliseconds:0} ms";
-            }
-
-            return $"{elapsedTime.Seconds:D} sec";
+            return elapsedTime.Seconds < 10 ? $"{elapsedTime.Seconds:D} sec {elapsedTime.Milliseconds:0} ms" : $"{elapsedTime.Seconds:D} sec";
         }
 
         /// <summary>
@@ -61,7 +56,7 @@ namespace Salix.Dapper.Cqrs.Abstractions
                 .Replace("\r", string.Empty)
                 .Replace("[", string.Empty)
                 .Replace("]", string.Empty);
-            trimmed = string.Join(" ", trimmed.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            trimmed = string.Join(" ", trimmed.Split([' '], StringSplitOptions.RemoveEmptyEntries));
 
             const int maxTotalLength = 75;
             const int maxSelectLength = (int)(maxTotalLength * 0.3);
